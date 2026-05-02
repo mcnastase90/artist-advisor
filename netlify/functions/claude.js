@@ -8,8 +8,8 @@ exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
     const payload = JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1200,
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 800,
       messages: body.messages,
     });
 
@@ -25,9 +25,9 @@ exports.handler = async (event) => {
           'Content-Length': Buffer.byteLength(payload),
         },
       }, (res) => {
-        let data = '';
-        res.on('data', chunk => data += chunk);
-        res.on('end', () => resolve(data));
+        const chunks = [];
+        res.on('data', chunk => chunks.push(chunk));
+        res.on('end', () => resolve(Buffer.concat(chunks).toString()));
       });
       req.on('error', reject);
       req.write(payload);
