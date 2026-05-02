@@ -7,228 +7,225 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#09090b;--bg2:#111114;--bg3:#17171b;--bg4:#1e1e24;
-  --gold:#c9a84c;--gold2:#e8c97a;--gold-dim:rgba(201,168,76,0.12);
-  --text:#ede9e0;--muted:#8a8780;--faint:#4a4a50;
-  --border:#222228;--border2:#2e2e36;
-  --red:#e05252;--green:#52c47a;--blue:#5294e0;
-  --radius:12px;--radius-sm:8px;
-}
+:root{--bg:#09090b;--bg2:#111114;--bg3:#17171b;--bg4:#1e1e24;--gold:#c9a84c;--gold2:#e8c97a;--gdim:rgba(201,168,76,0.12);--text:#ede9e0;--muted:#8a8780;--faint:#4a4a50;--border:#222228;--border2:#2e2e36;--green:#52c47a;--r:12px;--rs:8px}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
-img{display:block}
 
-/* ── HEADER ── */
-header{border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;background:rgba(9,9,11,0.95);backdrop-filter:blur(16px)}
-.logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.logo-mark{width:28px;height:28px;background:var(--gold);border-radius:6px;display:grid;place-items:center}
-.logo-mark svg{width:15px;height:15px;fill:var(--bg)}
-.logo-name{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--text)}
-.logo-name b{color:var(--gold)}
-nav{display:flex;gap:0}
-nav a{padding:5px 10px;border-radius:var(--radius-sm);font-size:0.82rem;color:var(--muted);transition:all 0.18s}
-nav a:hover{background:var(--bg3);color:var(--text)}
-.nav-hide{display:none}
-@media(min-width:600px){.nav-hide{display:block}}
-.api-status{display:flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--muted);background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:3px 8px;white-space:nowrap}
-.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.dot.g{background:var(--green)}
-.dot.y{background:var(--gold)}
+/* HEADER */
+header{border-bottom:1px solid var(--border);padding:0 1.25rem;display:flex;align-items:center;height:54px;position:sticky;top:0;z-index:200;background:rgba(9,9,11,0.95);backdrop-filter:blur(16px);gap:6px}
+.logo{display:flex;align-items:center;gap:7px;flex-shrink:0;cursor:pointer}
+.lm{width:27px;height:27px;background:var(--gold);border-radius:6px;display:grid;place-items:center}
+.lm svg{width:14px;height:14px;fill:var(--bg)}
+.ln{font-family:'Playfair Display',serif;font-size:1.05rem;white-space:nowrap}
+.ln b{color:var(--gold)}
+.dnav{display:none;gap:2px;margin-left:6px}
+@media(min-width:640px){.dnav{display:flex}}
+.dnav a{padding:5px 9px;border-radius:var(--rs);font-size:0.8rem;color:var(--muted);cursor:pointer;transition:all 0.18s}
+.dnav a:hover,.dnav a.active{background:var(--bg3);color:var(--text)}
+.hright{display:flex;align-items:center;gap:5px;margin-left:auto;flex-shrink:0}
+.dots{display:flex;align-items:center;gap:3px}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.dl{font-size:0.58rem;color:var(--muted)}
+.burger{background:none;border:1px solid var(--border2);border-radius:var(--rs);width:32px;height:32px;display:grid;place-items:center;cursor:pointer;flex-shrink:0}
+@media(min-width:640px){.burger{display:none}}
+.burger svg{width:15px;height:15px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round}
+.mob{display:none;position:fixed;top:54px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);z-index:199;padding:0.6rem 1.25rem;flex-direction:column;gap:2px}
+.mob.open{display:flex}
+.mob a{padding:10px 12px;border-radius:var(--rs);font-size:0.9rem;color:var(--muted);cursor:pointer;transition:all 0.18s}
+.mob a:hover{background:var(--bg3);color:var(--text)}
 
-/* ── HERO ── */
-.hero{padding:3.5rem 1.5rem 2.5rem;text-align:center;max-width:860px;margin:0 auto}
-.eyebrow{font-size:0.68rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:8px}
-.eyebrow::before,.eyebrow::after{content:'';width:30px;height:1px;background:var(--gold-dim)}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,7vw,4.5rem);line-height:1.08;letter-spacing:-0.02em;margin-bottom:1rem}
+/* HERO */
+.hero{padding:3rem 1.25rem 2.5rem;text-align:center;max-width:800px;margin:0 auto}
+.ey{font-size:0.62rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.9rem;display:flex;align-items:center;justify-content:center;gap:8px}
+.ey::before,.ey::after{content:'';width:24px;height:1px;background:var(--gdim)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,6vw,4rem);line-height:1.08;letter-spacing:-0.02em;margin-bottom:0.8rem}
 .hero h1 em{font-style:italic;color:var(--gold)}
-.hero-sub{font-size:0.95rem;color:var(--muted);font-weight:300;line-height:1.75;max-width:520px;margin:0 auto 2rem}
+.hs{font-size:0.88rem;color:var(--muted);font-weight:300;line-height:1.75;max-width:440px;margin:0 auto 1.75rem}
+.sw{max-width:540px;margin:0 auto}
+.sr{display:flex;gap:7px}
+.si{flex:1;min-width:0;background:var(--bg2);border:1.5px solid var(--border2);border-radius:var(--r);padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.93rem;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s}
+.si::placeholder{color:var(--faint)}
+.si:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.1)}
+.sg{background:var(--gold);border:none;border-radius:var(--r);padding:0 1rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--bg);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.18s}
+.sg:hover{background:var(--gold2)}
+.picks{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:0.85rem}
+.pick{background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:5px 12px;font-size:0.73rem;color:var(--muted);cursor:pointer;transition:all 0.18s}
+.pick:hover{border-color:var(--gold);color:var(--gold)}
 
-/* ── SEARCH ── */
-.search-wrap{max-width:600px;margin:0 auto}
-.search-row{display:flex;gap:8px}
-.search-input{flex:1;min-width:0;background:var(--bg2);border:1.5px solid var(--border2);border-radius:var(--radius);padding:0.8rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s}
-.search-input::placeholder{color:var(--faint)}
-.search-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.1)}
-.search-go{background:var(--gold);border:none;border-radius:var(--radius);padding:0 1rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;color:var(--bg);cursor:pointer;transition:background 0.18s;white-space:nowrap;flex-shrink:0}
-.search-go:hover{background:var(--gold2)}
-.picks{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:1rem}
-.pick{background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:5px 12px;font-size:0.75rem;color:var(--muted);cursor:pointer;transition:all 0.18s}
-.pick:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+/* SECTIONS */
+.sec{max-width:1040px;margin:0 auto;padding:2.25rem 1.25rem}
+.sl{font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.sl::after{content:'';flex:1;height:1px;background:var(--border)}
+.gc{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:10px}
+.ac{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem;cursor:pointer;transition:all 0.2s}
+.ac:hover{border-color:var(--gold);transform:translateY(-2px)}
+.acav{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:0.55rem}
+.ac h3{font-size:0.82rem;font-weight:500;margin-bottom:1px}
+.ac p{font-size:0.68rem;color:var(--muted)}
+.msr{display:flex;gap:2px;margin-top:5px}
+.ms{width:8px;height:8px}.ms.on{fill:var(--gold)}.ms.off{fill:var(--border2)}
+.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px}
+.cs{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem}
 
-/* ── SECTION ── */
-.section{max-width:1100px;margin:0 auto;padding:2.5rem 1.5rem}
-.sec-label{font-size:0.65rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);margin-bottom:1.25rem;display:flex;align-items:center;gap:10px}
-.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+/* CHARTS */
+.subpage{max-width:820px;margin:0 auto;padding:2.25rem 1.25rem;display:none}
+.subpage.active{display:block}
+.pt{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,2.2rem);margin-bottom:0.35rem}
+.ps{font-size:0.83rem;color:var(--muted);margin-bottom:1.5rem}
+.cl{display:grid;gap:7px}
+.ci{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0.8rem 1rem;display:flex;align-items:center;gap:0.85rem;cursor:pointer;transition:all 0.2s}
+.ci:hover{border-color:var(--gold);transform:translateX(3px)}
+.cn{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--gold);width:30px;text-align:center;flex-shrink:0}
+.cav{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;flex-shrink:0}
+.cinfo{flex:1}.cname{font-size:0.87rem;font-weight:500}.cgen{font-size:0.68rem;color:var(--muted)}
+.cscore{font-family:'DM Mono',monospace;font-size:0.74rem;color:var(--gold);flex-shrink:0}
 
-/* ── TRENDING GRID ── */
-.grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.acard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;cursor:pointer;transition:all 0.2s}
-.acard:hover{border-color:var(--gold);transform:translateY(-2px)}
-.acard-av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:0.65rem}
-.acard h3{font-size:0.88rem;font-weight:500;margin-bottom:2px}
-.acard p{font-size:0.72rem;color:var(--muted)}
-.mini-stars{display:flex;gap:2px;margin-top:6px}
-.ms{width:9px;height:9px}.ms.on{fill:var(--gold)}.ms.off{fill:var(--border2)}
+/* FESTIVALS */
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.fc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;transition:border-color 0.2s}
+.fc:hover{border-color:var(--gold)}
+.fe{font-size:1.6rem;margin-bottom:0.35rem}
+.fn{font-size:0.9rem;font-weight:500;margin-bottom:2px}
+.fl{font-size:0.7rem;color:var(--muted);margin-bottom:4px}
+.fd{font-size:0.68rem;font-family:'DM Mono',monospace;color:var(--gold)}
+.ftags{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
+.ftag{font-size:0.61rem;padding:2px 6px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--muted)}
 
-/* ── PROFILE ── */
-#profile-view{display:none}
-.profile-wrap{max-width:1060px;margin:0 auto;padding:1.5rem}
-.back{background:none;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:6px 12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.8rem;cursor:pointer;display:inline-flex;align-items:center;gap:5px;margin-bottom:1.5rem;transition:all 0.18s}
+/* PROFILE */
+#pv{display:none}
+.pw{max-width:1020px;margin:0 auto;padding:1.5rem 1.25rem}
+.back{background:none;border:1px solid var(--border2);border-radius:var(--rs);padding:5px 12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.77rem;cursor:pointer;display:inline-flex;align-items:center;gap:5px;margin-bottom:1.1rem;transition:all 0.18s}
 .back:hover{border-color:var(--gold);color:var(--gold)}
-
-/* profile header - stacks on mobile */
-.ph{display:grid;grid-template-columns:1fr;gap:1.25rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
-@media(min-width:640px){.ph{grid-template-columns:1fr 150px;gap:2rem;align-items:start}}
-.ph-av{width:70px;height:70px;border-radius:50%;font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;display:grid;place-items:center;margin-bottom:0.75rem}
-.ph-name{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,3rem);line-height:1.1;letter-spacing:-0.02em;margin-bottom:0.5rem}
-.ph-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:0.75rem}
-.badge{display:inline-flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:3px 10px;font-size:0.7rem;color:var(--muted)}
-.badge.gold-badge{border-color:rgba(201,168,76,0.35);color:var(--gold);background:var(--gold-dim)}
-.ph-tagline{font-size:0.9rem;color:var(--muted);font-weight:300;line-height:1.6}
-
-/* score box */
-.score-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:1.1rem}
-@media(max-width:639px){.score-box{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center}}
-.score-big{font-family:'Playfair Display',serif;font-size:3rem;color:var(--gold);line-height:1;text-align:center}
-.score-lbl{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);text-align:center;margin-top:2px}
-.rbars{display:grid;gap:7px;margin-top:0.9rem}
-@media(max-width:639px){.rbars{margin-top:0}}
-.rbar{display:flex;align-items:center;gap:7px;font-size:0.68rem;color:var(--muted)}
-.rbar-name{min-width:52px;font-size:0.67rem}
-.rbar-track{flex:1;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
-.rbar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;width:0;transition:width 1.1s cubic-bezier(0.22,1,0.36,1)}
-.rbar-val{min-width:22px;text-align:right;color:var(--faint);font-size:0.65rem}
-
-/* ── DATA PILLS ── */
-.int-bar{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:1.25rem}
-.int-pill{font-size:0.65rem;padding:3px 8px;border-radius:20px;border:1px solid var(--border2);color:var(--muted);display:flex;align-items:center;gap:3px}
-.int-pill.live{border-color:rgba(82,196,122,0.3);color:var(--green)}
-.int-pill.ai{border-color:rgba(201,168,76,0.3);color:var(--gold)}
-
-/* ── TABS ── */
-.tabs-row{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.5rem;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.tabs-row::-webkit-scrollbar{display:none}
-.tab{background:none;border:none;border-bottom:2px solid transparent;padding:0.65rem 0.9rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;transition:all 0.18s;white-space:nowrap;margin-bottom:-1px;flex-shrink:0}
-.tab:hover{color:var(--text)}
-.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.ph{display:grid;grid-template-columns:1fr;gap:1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--border);margin-bottom:1.1rem}
+@media(min-width:560px){.ph{grid-template-columns:1fr 142px;gap:1.75rem;align-items:start}}
+.phav{width:60px;height:60px;border-radius:50%;font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;display:grid;place-items:center;margin-bottom:0.6rem}
+.phname{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,5vw,2.6rem);line-height:1.1;letter-spacing:-0.02em;margin-bottom:0.4rem}
+.phbdg{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0.55rem}
+.bdg{display:inline-flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:3px 9px;font-size:0.66rem;color:var(--muted)}
+.bdg.g{border-color:rgba(201,168,76,0.35);color:var(--gold);background:var(--gdim)}
+.phtag{font-size:0.86rem;color:var(--muted);font-weight:300;line-height:1.6}
+.sb{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:1rem}
+@media(max-width:559px){.sb{display:grid;grid-template-columns:auto 1fr;gap:0.85rem;align-items:center}}
+.sbig{font-family:'Playfair Display',serif;font-size:2.7rem;color:var(--gold);line-height:1;text-align:center}
+.slbl{font-size:0.55rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);text-align:center;margin-top:2px}
+.rbars{display:grid;gap:6px;margin-top:0.75rem}
+@media(max-width:559px){.rbars{margin-top:0}}
+.rb{display:flex;align-items:center;gap:6px;font-size:0.63rem;color:var(--muted)}
+.rbn{min-width:46px;font-size:0.62rem}
+.rbt{flex:1;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.rbf{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;width:0;transition:width 1.1s cubic-bezier(0.22,1,0.36,1)}
+.rbv{min-width:18px;text-align:right;color:var(--faint);font-size:0.6rem}
+.pills{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1rem}
+.pill{font-size:0.61rem;padding:2px 7px;border-radius:20px;border:1px solid var(--border2);color:var(--muted)}
+.pill.live{border-color:rgba(82,196,122,0.3);color:var(--green)}
+.pill.ai{border-color:rgba(201,168,76,0.3);color:var(--gold)}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.1rem;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:none;border-bottom:2px solid transparent;padding:0.55rem 0.8rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.78rem;cursor:pointer;transition:all 0.18s;white-space:nowrap;margin-bottom:-1px;flex-shrink:0}
+.tab:hover{color:var(--text)}.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
 .panel{display:none}.panel.on{display:block}
-
-/* ── CARDS ── */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem}
-.card-title{font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint);margin-bottom:0.9rem}
-.two-col{display:grid;grid-template-columns:1fr;gap:1.1rem}
-@media(min-width:600px){.two-col{grid-template-columns:1fr 1fr}}
-.full{grid-column:1/-1}
-
-/* bio */
-.bio-text{font-size:0.9rem;line-height:1.85;color:var(--text);font-weight:300}
-.bio-text p{margin-bottom:0.9rem}
-.bio-text p:last-child{margin-bottom:0}
-.wiki-src{display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;color:var(--muted);margin-top:0.65rem;padding:3px 9px;background:var(--bg3);border-radius:20px;border:1px solid var(--border)}
-
-/* songs */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0.95rem}
+.ct{font-size:0.58rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint);margin-bottom:0.8rem}
+.tc{display:grid;grid-template-columns:1fr;gap:0.95rem}
+@media(min-width:530px){.tc{grid-template-columns:1fr 1fr}}
+.bt{font-size:0.85rem;line-height:1.85;color:var(--text);font-weight:300}
+.bt p{margin-bottom:0.8rem}.bt p:last-child{margin-bottom:0}
+.ws{display:inline-flex;align-items:center;gap:4px;font-size:0.66rem;color:var(--muted);margin-top:0.55rem;padding:3px 8px;background:var(--bg3);border-radius:20px;border:1px solid var(--border)}
 .songs{display:grid;gap:3px}
-.song{display:flex;align-items:center;gap:10px;padding:7px 6px;border-radius:var(--radius-sm);cursor:default;transition:background 0.15s}
+.song{display:flex;align-items:center;gap:8px;padding:6px 5px;border-radius:var(--rs);transition:background 0.15s}
 .song:hover{background:var(--bg3)}
-.snum{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--faint);width:16px;text-align:center;flex-shrink:0}
-.sinfo{flex:1;min-width:0}
-.stitle{font-size:0.85rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.salbum{font-size:0.7rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sdur{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--faint);flex-shrink:0}
-.spotify-row{display:flex;align-items:center;gap:6px;margin-top:0.65rem;padding-top:0.65rem;border-top:1px solid var(--border)}
-.spotify-btn{display:inline-flex;align-items:center;gap:5px;background:#1db954;border:none;border-radius:20px;padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:0.72rem;font-weight:500;color:#000;cursor:pointer;transition:opacity 0.18s}
-.spotify-btn:hover{opacity:0.85}
-.spotify-btn svg{width:12px;height:12px;fill:#000}
-
-/* albums */
-.album-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.album{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;cursor:pointer;transition:border-color 0.18s}
-.album:hover{border-color:var(--gold)}
-.alb-art{width:100%;aspect-ratio:1;object-fit:cover}
-.alb-art-fb{width:100%;aspect-ratio:1;display:grid;place-items:center;font-size:2rem;background:var(--bg4)}
-.alb-info{padding:7px 9px}
-.alb-title{font-size:0.8rem;font-weight:500;color:var(--text)}
-.alb-year{font-size:0.68rem;color:var(--muted)}
-
-/* live */
-.live-review{font-size:0.9rem;line-height:1.85;color:var(--text);font-weight:300;margin-bottom:1.1rem}
-.tips{display:grid;gap:7px}
-.tip{display:flex;gap:9px;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm)}
-.tip-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
-.tip-body strong{display:block;font-size:0.8rem;font-weight:500;color:var(--text);margin-bottom:2px}
-.tip-body span{font-size:0.78rem;color:var(--muted);line-height:1.55}
-
-/* concerts */
-.concerts{display:grid;gap:8px}
-.citem{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.9rem 1rem;display:flex;align-items:center;gap:0.9rem;flex-wrap:wrap}
-.cdate{font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--gold);min-width:85px;flex-shrink:0}
-.cvenue{flex:1;min-width:120px}
-.cvenue-name{font-size:0.87rem;font-weight:500}
-.cvenue-city{font-size:0.72rem;color:var(--muted);margin-top:2px}
-.tmbtn{background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:var(--radius-sm);padding:5px 11px;font-size:0.72rem;cursor:pointer;white-space:nowrap;transition:all 0.18s;font-family:'DM Sans',sans-serif}
-.tmbtn:hover{background:var(--gold);color:var(--bg)}
-.tm-credit{font-size:0.65rem;color:var(--faint);margin-top:0.65rem;display:flex;align-items:center;gap:4px}
-
-/* gossip */
-.gossip{display:grid;gap:11px}
-.gitem{border-left:2px solid var(--gold);padding-left:11px}
-.gsrc{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold);margin-bottom:4px}
-.gtext{font-size:0.85rem;line-height:1.65;color:var(--muted)}
-.gtime{font-size:0.67rem;color:var(--faint);margin-top:4px}
-
-/* loading */
-.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1.5rem;gap:0.8rem}
-.spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.75s linear infinite}
+.snum{font-family:'DM Mono',monospace;font-size:0.66rem;color:var(--faint);width:14px;text-align:center;flex-shrink:0}
+.si2{flex:1;min-width:0}
+.stit{font-size:0.82rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.salb{font-size:0.67rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sdur{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--faint);flex-shrink:0}
+.sprow{display:flex;align-items:center;gap:5px;margin-top:0.55rem;padding-top:0.55rem;border-top:1px solid var(--border)}
+.spbtn{display:inline-flex;align-items:center;gap:5px;background:#1db954;border:none;border-radius:20px;padding:5px 11px;font-family:'DM Sans',sans-serif;font-size:0.7rem;font-weight:500;color:#000;cursor:pointer}
+.spbtn:hover{opacity:0.85}
+.spbtn svg{width:11px;height:11px;fill:#000}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.alb{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);overflow:hidden;cursor:pointer;transition:border-color 0.18s}
+.alb:hover{border-color:var(--gold)}
+.alb img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.afb{width:100%;aspect-ratio:1;display:grid;place-items:center;font-size:1.8rem;background:var(--bg4)}
+.albi{padding:6px 8px}
+.albt{font-size:0.77rem;font-weight:500;color:var(--text)}
+.alby{font-size:0.65rem;color:var(--muted)}
+.lr{font-size:0.85rem;line-height:1.85;color:var(--text);font-weight:300;margin-bottom:0.9rem}
+.tips{display:grid;gap:6px}
+.tip{display:flex;gap:8px;padding:7px 9px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs)}
+.ticon{font-size:0.95rem;flex-shrink:0;margin-top:1px}
+.tb strong{display:block;font-size:0.76rem;font-weight:500;color:var(--text);margin-bottom:1px}
+.tb span{font-size:0.73rem;color:var(--muted);line-height:1.5}
+.certs{display:grid;gap:6px}
+.cert{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:0.75rem 0.9rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
+.cdate{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--gold);min-width:78px;flex-shrink:0}
+.cv{flex:1;min-width:85px}
+.cvn{font-size:0.83rem;font-weight:500}
+.cvc{font-size:0.68rem;color:var(--muted);margin-top:1px}
+.tbtn{background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:var(--rs);padding:4px 10px;font-size:0.69rem;cursor:pointer;white-space:nowrap;transition:all 0.18s;font-family:'DM Sans',sans-serif}
+.tbtn:hover{background:var(--gold);color:var(--bg)}
+.goss{display:grid;gap:9px}
+.gi{border-left:2px solid var(--gold);padding-left:9px}
+.gsrc{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold);margin-bottom:3px}
+.gtxt{font-size:0.81rem;line-height:1.65;color:var(--muted)}
+.gtm{font-size:0.62rem;color:var(--faint);margin-top:3px}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3.5rem 1.5rem;gap:0.7rem}
+.spinner{width:28px;height:28px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.75s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading p{color:var(--muted);font-size:0.85rem}
-.lsteps{display:grid;gap:5px;margin-top:0.4rem}
-.lstep{font-size:0.73rem;color:var(--faint);display:flex;align-items:center;gap:6px;transition:color 0.3s}
+.loading p{color:var(--muted);font-size:0.82rem}
+.lsteps{display:grid;gap:4px;margin-top:0.3rem}
+.lstep{font-size:0.68rem;color:var(--faint);display:flex;align-items:center;gap:5px;transition:color 0.3s}
 .lstep.active{color:var(--gold)}.lstep.done{color:var(--green)}
-.lstep-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
-
-/* empty state */
-.empty{text-align:center;padding:2rem;color:var(--muted)}
-.empty-icon{font-size:2rem;margin-bottom:0.65rem}
-.empty h4{font-size:0.9rem;font-weight:500;margin-bottom:0.4rem;color:var(--text)}
-.empty p{font-size:0.8rem;line-height:1.6}
-
-/* how it works */
-.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.ld{width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0}
+.empty{text-align:center;padding:1.5rem;color:var(--muted)}
+.ei{font-size:1.5rem;margin-bottom:0.4rem}
+.empty h4{font-size:0.84rem;font-weight:500;margin-bottom:2px;color:var(--text)}
+.empty p{font-size:0.75rem;line-height:1.6}
 </style>
 </head>
 <body>
 
 <header>
-  <a class="logo" href="#" onclick="showHome();return false">
-    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm12-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></div>
-    <span class="logo-name">Artist<b>Advisor</b></span>
-  </a>
-  <nav>
-    <a href="#" onclick="showHome();return false">Discover</a>
-    <a href="#" class="nav-hide">Charts</a>
-    <a href="#" class="nav-hide">Festivals</a>
+  <div class="logo" onclick="nav('home')">
+    <div class="lm"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm12-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></div>
+    <span class="ln">Artist<b>Advisor</b></span>
+  </div>
+  <nav class="dnav">
+    <a id="nav-home" onclick="nav('home')" class="active">Discover</a>
+    <a id="nav-charts" onclick="nav('charts')">Charts</a>
+    <a id="nav-festivals" onclick="nav('festivals')">Festivals</a>
   </nav>
-  <div class="api-status" id="api-status">
-    <span class="dot g"></span>Wiki
-    <span class="dot g" style="margin-left:3px"></span>iTunes
-    <span class="dot g" style="margin-left:3px"></span>TM
-    <span class="dot g" style="margin-left:3px"></span>AI
+  <div class="hright">
+    <div class="dots">
+      <span class="dot"></span><span class="dl">Wiki</span>
+      <span class="dot" style="margin-left:3px"></span><span class="dl">iTunes</span>
+      <span class="dot" style="margin-left:3px"></span><span class="dl">TM</span>
+      <span class="dot" style="margin-left:3px"></span><span class="dl">AI</span>
+    </div>
+    <button class="burger" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
   </div>
 </header>
 
-<!-- HOME -->
-<div id="home-view">
-  <div class="hero">
-    <div class="eyebrow">Your Complete Music Travel Guide</div>
-    <h1>Discover every<br>artist <em>in depth</em></h1>
-    <p class="hero-sub">Real bios, top tracks, live concert data, AI-powered insights — all in one place.</p>
+<div class="mob" id="mob">
+  <a onclick="nav('home');closeMob()">Discover</a>
+  <a onclick="nav('charts');closeMob()">Charts</a>
+  <a onclick="nav('festivals');closeMob()">Festivals</a>
+</div>
 
-    <div class="search-wrap">
-      <div class="search-row">
-        <input class="search-input" id="searchInput" type="text" placeholder="Search any artist…" onkeydown="if(event.key==='Enter')doSearch()">
-        <button class="search-go" onclick="doSearch()">Search →</button>
+<!-- HOME -->
+<div id="pg-home">
+  <div class="hero">
+    <div class="ey">Your Complete Music Travel Guide</div>
+    <h1>Discover every<br>artist <em>in depth</em></h1>
+    <p class="hs">Real bios, top tracks, concert dates & AI-powered insights.</p>
+    <div class="sw">
+      <div class="sr">
+        <input class="si" id="si" type="text" placeholder="Search any artist…" onkeydown="if(event.key==='Enter')doSearch()">
+        <button class="sg" onclick="doSearch()">Search →</button>
       </div>
       <div class="picks">
         <span class="pick" onclick="go('Taylor Swift')">Taylor Swift</span>
@@ -244,377 +241,230 @@ nav a:hover{background:var(--bg3);color:var(--text)}
       </div>
     </div>
   </div>
-
-  <div class="section">
-    <div class="sec-label">Trending artists</div>
-    <div class="grid-cards" id="trending-grid"></div>
-  </div>
-
-  <div class="section" style="padding-top:0">
-    <div class="sec-label">How it works</div>
-    <div class="how-grid">
-      <div class="card"><div style="font-size:1.4rem;margin-bottom:0.5rem">📖</div><div style="font-size:0.83rem;font-weight:500;margin-bottom:3px">Wikipedia Bios</div><div style="font-size:0.76rem;color:var(--muted);line-height:1.6">Real auto-fetched artist biographies.</div></div>
-      <div class="card"><div style="font-size:1.4rem;margin-bottom:0.5rem">🎵</div><div style="font-size:0.83rem;font-weight:500;margin-bottom:3px">iTunes Tracks</div><div style="font-size:0.76rem;color:var(--muted);line-height:1.6">Top songs, albums & artwork live from Apple.</div></div>
-      <div class="card"><div style="font-size:1.4rem;margin-bottom:0.5rem">🎟️</div><div style="font-size:0.83rem;font-weight:500;margin-bottom:3px">Live Concert Dates</div><div style="font-size:0.76rem;color:var(--muted);line-height:1.6">Real upcoming events from Ticketmaster.</div></div>
-      <div class="card"><div style="font-size:1.4rem;margin-bottom:0.5rem">✨</div><div style="font-size:0.83rem;font-weight:500;margin-bottom:3px">AI Insights</div><div style="font-size:0.76rem;color:var(--muted);line-height:1.6">Ratings, concert tips & gossip powered by Claude.</div></div>
+  <div class="sec"><div class="sl">Trending artists</div><div class="gc" id="tg"></div></div>
+  <div class="sec" style="padding-top:0">
+    <div class="sl">How it works</div>
+    <div class="hg">
+      <div class="cs"><div style="font-size:1.3rem;margin-bottom:0.35rem">📖</div><div style="font-size:0.8rem;font-weight:500;margin-bottom:2px">Wikipedia Bios</div><div style="font-size:0.72rem;color:var(--muted);line-height:1.6">Real auto-fetched biographies.</div></div>
+      <div class="cs"><div style="font-size:1.3rem;margin-bottom:0.35rem">🎵</div><div style="font-size:0.8rem;font-weight:500;margin-bottom:2px">iTunes Tracks</div><div style="font-size:0.72rem;color:var(--muted);line-height:1.6">Top songs & albums from Apple.</div></div>
+      <div class="cs"><div style="font-size:1.3rem;margin-bottom:0.35rem">🎟️</div><div style="font-size:0.8rem;font-weight:500;margin-bottom:2px">Concert Dates</div><div style="font-size:0.72rem;color:var(--muted);line-height:1.6">Real events from Ticketmaster.</div></div>
+      <div class="cs"><div style="font-size:1.3rem;margin-bottom:0.35rem">✨</div><div style="font-size:0.8rem;font-weight:500;margin-bottom:2px">AI Insights</div><div style="font-size:0.72rem;color:var(--muted);line-height:1.6">Ratings & gossip by Claude AI.</div></div>
     </div>
   </div>
 </div>
 
-<!-- PROFILE -->
-<div id="profile-view">
-  <div class="profile-wrap">
-    <button class="back" onclick="showHome()">← Back</button>
+<!-- CHARTS -->
+<div class="subpage" id="pg-charts">
+  <h1 class="pt">Top Artists <em style="font-style:italic;color:var(--gold)">2025</em></h1>
+  <p class="ps">Highest-rated artists on Artist Advisor right now.</p>
+  <div class="cl" id="cl"></div>
+</div>
 
-    <div id="loading-state" class="loading" style="display:none">
+<!-- FESTIVALS -->
+<div class="subpage" id="pg-festivals">
+  <h1 class="pt">Music <em style="font-style:italic;color:var(--gold)">Festivals</em></h1>
+  <p class="ps">The world's biggest festivals — dates and what to expect.</p>
+  <div class="fg" id="fg"></div>
+</div>
+
+<!-- PROFILE -->
+<div id="pv">
+  <div class="pw">
+    <button class="back" onclick="history.back()">← Back</button>
+    <div id="ls" class="loading" style="display:none">
       <div class="spinner"></div>
       <p>Building artist profile…</p>
       <div class="lsteps">
-        <div class="lstep" id="ls-wiki"><span class="lstep-dot"></span>Fetching Wikipedia bio</div>
-        <div class="lstep" id="ls-itunes"><span class="lstep-dot"></span>Loading iTunes tracks & albums</div>
-        <div class="lstep" id="ls-tm"><span class="lstep-dot"></span>Checking Ticketmaster events</div>
-        <div class="lstep" id="ls-ai"><span class="lstep-dot"></span>Generating AI insights</div>
+        <div class="lstep" id="lw"><span class="ld"></span>Fetching Wikipedia bio</div>
+        <div class="lstep" id="li"><span class="ld"></span>Loading iTunes tracks & albums</div>
+        <div class="lstep" id="lt"><span class="ld"></span>Checking Ticketmaster events</div>
+        <div class="lstep" id="la"><span class="ld"></span>Generating AI insights</div>
       </div>
     </div>
-
-    <div id="profile-content" style="display:none">
+    <div id="pc" style="display:none">
       <div class="ph">
         <div>
-          <div id="p-av" class="ph-av"></div>
-          <h1 id="p-name" class="ph-name"></h1>
-          <div id="p-badges" class="ph-badges"></div>
-          <p id="p-tagline" class="ph-tagline"></p>
+          <div id="pav" class="phav"></div>
+          <h1 id="pname" class="phname"></h1>
+          <div id="pbdg" class="phbdg"></div>
+          <p id="ptag" class="phtag"></p>
         </div>
-        <div class="score-box">
-          <div>
-            <div id="p-score" class="score-big">—</div>
-            <div class="score-lbl">Artist Advisor Score</div>
-          </div>
+        <div class="sb">
+          <div><div id="pscore" class="sbig">—</div><div class="slbl">Artist Advisor Score</div></div>
           <div class="rbars">
-            <div class="rbar"><span class="rbar-name">Live show</span><div class="rbar-track"><div class="rbar-fill" id="rb-live"></div></div><span class="rbar-val" id="rv-live"></span></div>
-            <div class="rbar"><span class="rbar-name">Music</span><div class="rbar-track"><div class="rbar-fill" id="rb-music"></div></div><span class="rbar-val" id="rv-music"></span></div>
-            <div class="rbar"><span class="rbar-name">Vibe</span><div class="rbar-track"><div class="rbar-fill" id="rb-vibe"></div></div><span class="rbar-val" id="rv-vibe"></span></div>
-            <div class="rbar"><span class="rbar-name">Fan base</span><div class="rbar-track"><div class="rbar-fill" id="rb-fans"></div></div><span class="rbar-val" id="rv-fans"></span></div>
+            <div class="rb"><span class="rbn">Live</span><div class="rbt"><div class="rbf" id="rl"></div></div><span class="rbv" id="vl"></span></div>
+            <div class="rb"><span class="rbn">Music</span><div class="rbt"><div class="rbf" id="rm"></div></div><span class="rbv" id="vm"></span></div>
+            <div class="rb"><span class="rbn">Vibe</span><div class="rbt"><div class="rbf" id="rv"></div></div><span class="rbv" id="vv"></span></div>
+            <div class="rb"><span class="rbn">Fans</span><div class="rbt"><div class="rbf" id="rf"></div></div><span class="rbv" id="vf"></span></div>
           </div>
         </div>
       </div>
-
-      <div class="int-bar" id="data-sources"></div>
-
-      <div class="tabs-row">
-        <button class="tab on" onclick="switchTab('bio',this)">Biography</button>
-        <button class="tab" onclick="switchTab('music',this)">Music</button>
-        <button class="tab" onclick="switchTab('live',this)">Live Experience</button>
-        <button class="tab" onclick="switchTab('concerts',this)">Concerts</button>
-        <button class="tab" onclick="switchTab('gossip',this)">Gossip</button>
+      <div class="pills" id="pills"></div>
+      <div class="tabs">
+        <button class="tab on" onclick="st('bio',this)">Biography</button>
+        <button class="tab" onclick="st('music',this)">Music</button>
+        <button class="tab" onclick="st('live',this)">Live Experience</button>
+        <button class="tab" onclick="st('concerts',this)">Concerts</button>
+        <button class="tab" onclick="st('gossip',this)">Gossip</button>
       </div>
-
-      <div id="panel-bio" class="panel on">
-        <div class="two-col">
-          <div class="card full">
-            <div class="card-title">About the artist</div>
-            <div id="bio-content" class="bio-text"></div>
-          </div>
+      <div id="pb-bio" class="panel on"><div class="tc"><div class="card" style="grid-column:1/-1"><div class="ct">About the artist</div><div id="bio" class="bt"></div></div></div></div>
+      <div id="pb-music" class="panel"><div class="tc">
+        <div class="card"><div class="ct">Top tracks</div><div id="songs" class="songs"></div>
+          <div class="sprow"><button class="spbtn" id="spbtn"><svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>Open in Spotify</button></div>
         </div>
-      </div>
-
-      <div id="panel-music" class="panel">
-        <div class="two-col">
-          <div class="card">
-            <div class="card-title">Top tracks</div>
-            <div id="songs-content" class="songs"></div>
-            <div class="spotify-row" id="spotify-row" style="display:none">
-              <button class="spotify-btn" id="spotify-btn">
-                <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-                Open in Spotify
-              </button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-title">Albums</div>
-            <div id="albums-content" class="album-grid"></div>
-          </div>
-        </div>
-      </div>
-
-      <div id="panel-live" class="panel">
-        <div class="card">
-          <div class="card-title">What to expect at a concert</div>
-          <div id="live-content"></div>
-        </div>
-      </div>
-
-      <div id="panel-concerts" class="panel">
-        <div class="card">
-          <div class="card-title">Upcoming events</div>
-          <div id="concerts-content" class="concerts"></div>
-          <div class="tm-credit" id="tm-credit" style="display:none">⚡ Powered by Ticketmaster</div>
-        </div>
-      </div>
-
-      <div id="panel-gossip" class="panel">
-        <div class="card">
-          <div class="card-title">Latest news & gossip</div>
-          <div id="gossip-content" class="gossip"></div>
-        </div>
-      </div>
+        <div class="card"><div class="ct">Albums</div><div id="albums" class="ag"></div></div>
+      </div></div>
+      <div id="pb-live" class="panel"><div class="card"><div class="ct">What to expect at a concert</div><div id="live"></div></div></div>
+      <div id="pb-concerts" class="panel"><div class="card"><div class="ct">Upcoming events</div><div id="concerts" class="certs"></div></div></div>
+      <div id="pb-gossip" class="panel"><div class="card"><div class="ct">Latest news & gossip</div><div id="gossip" class="goss"></div></div></div>
     </div>
   </div>
 </div>
 
 <script>
-const TM_KEY = 'NBgHcfmi9XxEnrUsSoSWNFV40El9t1Ni';
+const TM='NBgHcfmi9XxEnrUsSoSWNFV40El9t1Ni';
+const AVC=[['rgba(201,168,76,0.15)','#c9a84c'],['rgba(82,196,122,0.12)','#52c47a'],['rgba(224,82,82,0.12)','#e05252'],['rgba(120,100,200,0.15)','#a090e8'],['rgba(64,180,220,0.12)','#40b4dc'],['rgba(220,140,60,0.12)','#dc8c3c']];
+let cp=0;
+const TR=[{n:'Taylor Swift',g:'Pop / Country',s:4.9},{n:'Kendrick Lamar',g:'Hip-Hop',s:4.8},{n:'The Weeknd',g:'R&B / Pop',s:4.7},{n:'Adele',g:'Soul / Pop',s:4.9},{n:'Billie Eilish',g:'Alt Pop',s:4.6},{n:'Drake',g:'Hip-Hop / Rap',s:4.5},{n:'Coldplay',g:'Alternative',s:4.7},{n:'Bad Bunny',g:'Reggaeton',s:4.8},{n:'Beyoncé',g:'Pop / R&B',s:4.9},{n:'Doja Cat',g:'Pop / Rap',s:4.5},{n:'Post Malone',g:'Hip-Hop / Pop',s:4.4},{n:'SZA',g:'R&B / Neo Soul',s:4.7}];
+const FV=[{e:'🎪',n:'Glastonbury',l:'Somerset, UK',d:'25–29 Jun 2025',t:['Rock','Pop','Electronic']},{e:'🌴',n:'Coachella',l:'California, USA',d:'11–20 Apr 2025',t:['Indie','Hip-Hop','Electronic']},{e:'🔥',n:'Tomorrowland',l:'Boom, Belgium',d:'18–27 Jul 2025',t:['EDM','Techno','House']},{e:'🎸',n:'Reading & Leeds',l:'UK',d:'22–24 Aug 2025',t:['Rock','Alternative']},{e:'🌊',n:'Ultra',l:'Miami, USA',d:'28–30 Mar 2025',t:['EDM','Techno']},{e:'🎵',n:'Untold',l:'Cluj-Napoca, Romania',d:'7–10 Aug 2025',t:['EDM','Pop','Hip-Hop']},{e:'🌞',n:'Lollapalooza',l:'Chicago, USA',d:'31 Jul–3 Aug 2025',t:['Alternative','Rock']},{e:'🎭',n:'Primavera Sound',l:'Barcelona, Spain',d:'29 May–1 Jun 2025',t:['Indie','Electronic']}];
 
-const AVATAR_COLORS = [
-  ['rgba(201,168,76,0.15)','#c9a84c'],['rgba(82,196,122,0.12)','#52c47a'],
-  ['rgba(224,82,82,0.12)','#e05252'],['rgba(120,100,200,0.15)','#a090e8'],
-  ['rgba(64,180,220,0.12)','#40b4dc'],['rgba(220,140,60,0.12)','#dc8c3c'],
-];
-let colorPick = 0;
-
-const TRENDING = [
-  {name:'Taylor Swift',genre:'Pop / Country',score:4.9},
-  {name:'Kendrick Lamar',genre:'Hip-Hop',score:4.8},
-  {name:'The Weeknd',genre:'R&B / Pop',score:4.7},
-  {name:'Adele',genre:'Soul / Pop',score:4.9},
-  {name:'Billie Eilish',genre:'Alt Pop',score:4.6},
-  {name:'Drake',genre:'Hip-Hop / Rap',score:4.5},
-  {name:'Coldplay',genre:'Alternative',score:4.7},
-  {name:'Bad Bunny',genre:'Reggaeton',score:4.8},
-  {name:'Beyoncé',genre:'Pop / R&B',score:4.9},
-  {name:'Doja Cat',genre:'Pop / Rap',score:4.5},
-  {name:'Post Malone',genre:'Hip-Hop / Pop',score:4.4},
-  {name:'SZA',genre:'R&B / Neo Soul',score:4.7},
-];
-
-window.onload = buildTrending;
-
-function buildTrending() {
-  const g = document.getElementById('trending-grid');
-  g.innerHTML = TRENDING.map((a,i) => {
-    const [bg,fg] = AVATAR_COLORS[i % AVATAR_COLORS.length];
-    return `<div class="acard" onclick="go('${a.name.replace(/'/g,"\\'")}')">
-      <div class="acard-av" style="background:${bg};color:${fg}">${a.name[0]}</div>
-      <h3>${a.name}</h3><p>${a.genre}</p>
-      <div class="mini-stars">${starsHtml(a.score)}</div>
-    </div>`;
-  }).join('');
+// URL ROUTING
+function router() {
+  const hash = window.location.hash;
+  if (hash.startsWith('#artist/')) {
+    const name = decodeURIComponent(hash.replace('#artist/', '').replace(/-/g,' '));
+    showProfile(name);
+  } else if (hash === '#charts') {
+    showPage('charts');
+  } else if (hash === '#festivals') {
+    showPage('festivals');
+  } else {
+    showPage('home');
+  }
 }
 
-function starsHtml(n) {
-  let s=''; const r=Math.round(n);
-  for(let i=0;i<5;i++) s+=`<svg class="ms ${i<r?'on':'off'}" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
-  return s;
+window.addEventListener('hashchange', router);
+window.addEventListener('load', () => { buildAll(); router(); });
+
+function closeMob() { document.getElementById('mob').classList.remove('open'); }
+
+function nav(page) {
+  if (page === 'home') window.location.hash = '';
+  else window.location.hash = page;
 }
 
-function showHome() {
-  document.getElementById('home-view').style.display='';
-  document.getElementById('profile-view').style.display='none';
-  document.getElementById('searchInput').value='';
+function showPage(page) {
+  document.getElementById('pg-home').style.display = page==='home' ? '' : 'none';
+  document.getElementById('pg-charts').classList.toggle('active', page==='charts');
+  document.getElementById('pg-festivals').classList.toggle('active', page==='festivals');
+  document.getElementById('pv').style.display = 'none';
+  // update nav
+  ['home','charts','festivals'].forEach(p => {
+    const el = document.getElementById('nav-'+p);
+    if (el) el.classList.toggle('active', p===page);
+  });
   window.scrollTo(0,0);
 }
 
-function doSearch() {
-  const v = document.getElementById('searchInput').value.trim();
-  if (v) go(v);
+function buildAll() {
+  document.getElementById('tg').innerHTML = TR.map((a,i)=>{
+    const[bg,fg]=AVC[i%AVC.length];
+    return `<div class="ac" onclick="go('${a.n.replace(/'/g,"\\'")}')"><div class="acav" style="background:${bg};color:${fg}">${a.n[0]}</div><h3>${a.n}</h3><p>${a.g}</p><div class="msr">${sh(a.s)}</div></div>`;
+  }).join('');
+  document.getElementById('cl').innerHTML = TR.map((a,i)=>{
+    const[bg,fg]=AVC[i%AVC.length];
+    return `<div class="ci" onclick="go('${a.n.replace(/'/g,"\\'")}')"><div class="cn">${i+1}</div><div class="cav" style="background:${bg};color:${fg}">${a.n[0]}</div><div class="cinfo"><div class="cname">${a.n}</div><div class="cgen">${a.g}</div></div><div class="cscore">★ ${a.s}</div></div>`;
+  }).join('');
+  document.getElementById('fg').innerHTML = FV.map(f=>`
+    <div class="fc"><div class="fe">${f.e}</div><div class="fn">${f.n}</div><div class="fl">📍 ${f.l}</div><div class="fd">${f.d}</div><div class="ftags">${f.t.map(t=>`<span class="ftag">${t}</span>`).join('')}</div></div>`).join('');
 }
 
+function sh(n){let s='',r=Math.round(n);for(let i=0;i<5;i++)s+=`<svg class="ms ${i<r?'on':'off'}" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;return s;}
+
+function doSearch() { const v=document.getElementById('si').value.trim(); if(v) go(v); }
+
 function go(name) {
-  colorPick = (colorPick+1) % AVATAR_COLORS.length;
-  document.getElementById('home-view').style.display='none';
-  document.getElementById('profile-view').style.display='block';
+  window.location.hash = 'artist/' + encodeURIComponent(name.replace(/ /g, '-'));
+}
+
+function showProfile(name) {
+  cp = (cp+1) % AVC.length;
+  document.getElementById('pg-home').style.display = 'none';
+  document.getElementById('pg-charts').classList.remove('active');
+  document.getElementById('pg-festivals').classList.remove('active');
+  document.getElementById('pv').style.display = 'block';
   window.scrollTo(0,0);
   loadProfile(name);
 }
 
-function switchTab(id, el) {
+function st(id,el) {
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   el.classList.add('on');
-  document.getElementById('panel-'+id).classList.add('on');
+  document.getElementById('pb-'+id).classList.add('on');
 }
 
-function step(id, state) {
-  const el = document.getElementById('ls-'+id);
-  if (el) el.className = 'lstep ' + (state||'');
-}
+function ls(id,s){const e=document.getElementById(id);if(e)e.className='lstep '+(s||'');}
 
 async function loadProfile(name) {
-  document.getElementById('loading-state').style.display='flex';
-  document.getElementById('profile-content').style.display='none';
+  document.getElementById('ls').style.display='flex';
+  document.getElementById('pc').style.display='none';
   document.querySelectorAll('.lstep').forEach(e=>e.className='lstep');
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===0));
   document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('on',i===0));
 
-  let wiki=null, itunes=null, tm=[], ai=null;
+  let wiki=null,itunes=null,tm=[],ai=null;
 
-  // Wikipedia
-  step('wiki','active');
-  try {
-    const r = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`);
-    if (r.ok) { wiki = await r.json(); step('wiki','done'); } else step('wiki','');
-  } catch(e) { step('wiki',''); }
+  ls('lw','active');
+  try{const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`);if(r.ok){wiki=await r.json();ls('lw','done');}else ls('lw','');}catch{ls('lw','');}
 
-  // iTunes
-  step('itunes','active');
-  try {
-    const [tr, al] = await Promise.all([
-      fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(name)}&media=music&entity=song&limit=20`).then(r=>r.json()),
-      fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(name)}&media=music&entity=album&limit=6`).then(r=>r.json()),
-    ]);
-    itunes = { tracks: tr.results||[], albums: al.results||[] };
-    step('itunes','done');
-  } catch(e) { step('itunes',''); }
+  ls('li','active');
+  try{const[tr,al]=await Promise.all([fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(name)}&media=music&entity=song&limit=20`).then(r=>r.json()),fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(name)}&media=music&entity=album&limit=6`).then(r=>r.json())]);itunes={tracks:tr.results||[],albums:al.results||[]};ls('li','done');}catch{ls('li','');}
 
-  // Ticketmaster
-  step('tm','active');
-  try {
-    const r = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${encodeURIComponent(name)}&classificationName=music&size=6&apikey=${TM_KEY}`);
-    const j = await r.json();
-    tm = j._embedded?.events || [];
-    step('tm','done');
-  } catch(e) { step('tm',''); }
+  ls('lt','active');
+  try{const r=await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${encodeURIComponent(name)}&classificationName=music&size=6&apikey=${TM}`);const j=await r.json();tm=j._embedded?.events||[];ls('lt','done');}catch{ls('lt','');}
 
-  // Claude AI — via Netlify Function
-  step('ai','active');
-  try {
-    const genre = itunes?.tracks[0]?.primaryGenreName || 'music';
-    const albums = itunes?.albums?.slice(0,4).map(a=>a.collectionName).join(', ') || '';
-    const prompt = `You are Artist Advisor. Generate a profile for "${name}". Genre: ${genre}. Albums: ${albums}.
-Respond ONLY with valid JSON, no markdown:
-{"tagline":"One punchy sentence max 12 words","genre":"Genre/Subgenre","origin":"City, Country","active_since":"Year","ratings":{"overall":4.3,"live_show":88,"music":91,"vibe":85,"fanbase":90},"bio_extra":"2-3 sentences of extra context beyond Wikipedia.","live_review":"3 vivid sentences about their concert experience.","concert_tips":[{"icon":"🎟️","title":"Tickets","tip":"Specific ticket advice"},{"icon":"👗","title":"Outfit","tip":"What fans wear"},{"icon":"📍","title":"Best spot","tip":"Where to stand or sit"},{"icon":"⏰","title":"Arrival","tip":"When to arrive"},{"icon":"📱","title":"Phones","tip":"Phone/camera etiquette"}],"gossip":[{"source":"Rolling Stone","text":"Recent news 2 sentences","time":"2 days ago"},{"source":"Billboard","text":"Music industry news 2 sentences","time":"1 week ago"},{"source":"TMZ","text":"Personal gossip 2 sentences","time":"2 weeks ago"},{"source":"Variety","text":"Project news 2 sentences","time":"1 month ago"}]}`;
+  ls('la','active');
+  try{
+    const genre=itunes?.tracks[0]?.primaryGenreName||'music';
+    const albs=itunes?.albums?.slice(0,4).map(a=>a.collectionName).join(', ')||'';
+    const prompt=`You are Artist Advisor. Generate a profile for "${name}". Genre: ${genre}. Albums: ${albs}.\nRespond ONLY with valid JSON, no markdown:\n{"tagline":"One punchy sentence max 12 words","genre":"Genre/Subgenre","origin":"City, Country","active_since":"Year","ratings":{"overall":4.3,"live_show":88,"music":91,"vibe":85,"fanbase":90},"bio_extra":"2-3 sentences extra context.","live_review":"3 vivid sentences about their concert experience.","concert_tips":[{"icon":"🎟️","title":"Tickets","tip":"Advice"},{"icon":"👗","title":"Outfit","tip":"What fans wear"},{"icon":"📍","title":"Best spot","tip":"Where to stand"},{"icon":"⏰","title":"Arrival","tip":"When to arrive"},{"icon":"📱","title":"Phones","tip":"Phone etiquette"}],"gossip":[{"source":"Rolling Stone","text":"Recent news 2 sentences","time":"2 days ago"},{"source":"Billboard","text":"Industry news 2 sentences","time":"1 week ago"},{"source":"TMZ","text":"Gossip 2 sentences","time":"2 weeks ago"},{"source":"Variety","text":"Project news 2 sentences","time":"1 month ago"}]}`;
+    const r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:prompt}]})});
+    const j=await r.json();
+    const raw=j.content?.map(b=>b.text||'').join('')||'';
+    ai=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    ls('la','done');
+  }catch(e){ls('la','');console.error('AI:',e);}
 
-    const r = await fetch('/.netlify/functions/claude', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ messages: [{role:'user',content:prompt}] })
-    });
-    const j = await r.json();
-    const raw = j.content?.map(b=>b.text||'').join('') || '';
-    ai = JSON.parse(raw.replace(/```json|```/g,'').trim());
-    step('ai','done');
-  } catch(e) { step('ai',''); console.error(e); }
-
-  renderProfile(name, wiki, itunes, tm, ai);
+  render(name,wiki,itunes,tm,ai);
 }
 
-function renderProfile(name, wiki, itunes, tm, ai) {
-  document.getElementById('loading-state').style.display='none';
-  document.getElementById('profile-content').style.display='block';
-
-  const [bg,fg] = AVATAR_COLORS[colorPick];
-  const av = document.getElementById('p-av');
-  av.style.background=bg; av.style.color=fg;
-  av.textContent = name[0].toUpperCase();
-
-  document.getElementById('p-name').textContent = wiki?.title || name;
-
-  const genre = ai?.genre || itunes?.tracks[0]?.primaryGenreName || 'Music';
-  const origin = ai?.origin || '';
-  const since = ai?.active_since || '';
-  let badges = `<span class="badge gold-badge">${genre}</span>`;
-  if (origin) badges += `<span class="badge">${origin}</span>`;
-  if (since) badges += `<span class="badge">Since ${since}</span>`;
-  document.getElementById('p-badges').innerHTML = badges;
-  document.getElementById('p-tagline').textContent = ai?.tagline || wiki?.description || '';
-
-  if (ai?.ratings) {
-    document.getElementById('p-score').textContent = ai.ratings.overall.toFixed(1);
-    setTimeout(()=>{
-      setBar('live',ai.ratings.live_show);
-      setBar('music',ai.ratings.music);
-      setBar('vibe',ai.ratings.vibe);
-      setBar('fans',ai.ratings.fanbase);
-    },120);
-  }
-
-  let sources = [];
-  if (wiki) sources.push('<div class="int-pill live">✓ Wikipedia</div>');
-  if (itunes?.tracks?.length) sources.push('<div class="int-pill live">✓ iTunes</div>');
-  if (tm?.length) sources.push('<div class="int-pill live">✓ Ticketmaster</div>');
-  if (ai) sources.push('<div class="int-pill ai">✓ Claude AI</div>');
-  document.getElementById('data-sources').innerHTML = sources.join('');
-
-  // Bio
-  let bioHtml = '';
-  if (wiki?.extract) {
-    const paras = wiki.extract.split('\n').filter(p=>p.trim().length>50).slice(0,4);
-    bioHtml = paras.map(p=>`<p>${p}</p>`).join('');
-    bioHtml += `<a class="wiki-src" href="${wiki.content_urls?.desktop?.page||'#'}" target="_blank">📖 Wikipedia</a>`;
-  } else {
-    bioHtml = `<p style="color:var(--muted)">No Wikipedia article found for "${name}".</p>`;
-  }
-  if (ai?.bio_extra) bioHtml += `<p style="margin-top:0.9rem">${ai.bio_extra}</p>`;
-  document.getElementById('bio-content').innerHTML = bioHtml;
-
-  // Songs
-  const tracks = itunes?.tracks?.slice(0,10)||[];
-  document.getElementById('songs-content').innerHTML = tracks.length
-    ? tracks.map((t,i)=>`<div class="song">
-        <span class="snum">${i+1}</span>
-        <div class="sinfo"><div class="stitle">${t.trackName||'Unknown'}</div><div class="salbum">${t.collectionName||''}</div></div>
-        <span class="sdur">${msToMin(t.trackTimeMillis)}</span>
-      </div>`).join('')
-    : `<div class="empty"><p>No tracks found.</p></div>`;
-
-  const sr = document.getElementById('spotify-row');
-  sr.style.display='flex';
-  document.getElementById('spotify-btn').onclick = () => window.open(`https://open.spotify.com/search/${encodeURIComponent(name)}`,'_blank');
-
-  // Albums
-  const albums = itunes?.albums?.slice(0,6)||[];
-  document.getElementById('albums-content').innerHTML = albums.length
-    ? albums.map(a=>`<div class="album" onclick="window.open('${a.collectionViewUrl||''}','_blank')">
-        <img class="alb-art" src="${(a.artworkUrl100||'').replace('100x100','300x300')}" alt="${a.collectionName}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='grid'">
-        <div class="alb-art-fb" style="display:none">🎵</div>
-        <div class="alb-info"><div class="alb-title">${a.collectionName||'Unknown'}</div><div class="alb-year">${a.releaseDate?.slice(0,4)||''} · ${a.trackCount||0} tracks</div></div>
-      </div>`).join('')
-    : `<p style="color:var(--muted);font-size:0.82rem">No album data found.</p>`;
-
-  // Live
-  let liveHtml = '';
-  if (ai?.live_review) liveHtml += `<div class="live-review">${ai.live_review}</div>`;
-  if (ai?.concert_tips) liveHtml += `<div class="tips">${ai.concert_tips.map(t=>`
-    <div class="tip"><span class="tip-icon">${t.icon}</span>
-    <div class="tip-body"><strong>${t.title}</strong><span>${t.tip}</span></div></div>`).join('')}</div>`;
-  if (!liveHtml) liveHtml=`<div class="empty"><div class="empty-icon">🎸</div><h4>AI insights unavailable</h4><p>Try refreshing the page.</p></div>`;
-  document.getElementById('live-content').innerHTML = liveHtml;
-
-  // Concerts
-  if (tm?.length) {
-    document.getElementById('concerts-content').innerHTML = tm.map(e=>{
-      const date = e.dates?.start?.localDate ? new Date(e.dates.start.localDate).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : 'TBA';
-      const venue = e._embedded?.venues?.[0];
-      const city = venue ? `${venue.city?.name||''}, ${venue.country?.name||''}` : '';
-      return `<div class="citem">
-        <span class="cdate">${date}</span>
-        <div class="cvenue"><div class="cvenue-name">${venue?.name||e.name||'TBA'}</div><div class="cvenue-city">📍 ${city}</div></div>
-        <button class="tmbtn" onclick="window.open('${e.url||''}','_blank')">Tickets →</button>
-      </div>`;
-    }).join('');
-    document.getElementById('tm-credit').style.display='flex';
-  } else {
-    document.getElementById('concerts-content').innerHTML = `<div class="empty"><div class="empty-icon">🎟️</div><h4>No upcoming events found</h4><p>Check back later for new dates.</p></div>`;
-  }
-
-  // Gossip
-  if (ai?.gossip) {
-    document.getElementById('gossip-content').innerHTML = ai.gossip.map(g=>`
-      <div class="gitem"><div class="gsrc">${g.source}</div><div class="gtext">${g.text}</div><div class="gtime">${g.time}</div></div>`).join('');
-  } else {
-    document.getElementById('gossip-content').innerHTML=`<div class="empty"><p>Gossip unavailable.</p></div>`;
-  }
+function render(name,wiki,itunes,tm,ai){
+  document.getElementById('ls').style.display='none';
+  document.getElementById('pc').style.display='block';
+  const[bg,fg]=AVC[cp];
+  const av=document.getElementById('pav');av.style.background=bg;av.style.color=fg;av.textContent=name[0].toUpperCase();
+  document.getElementById('pname').textContent=wiki?.title||name;
+  const genre=ai?.genre||itunes?.tracks[0]?.primaryGenreName||'Music';
+  const origin=ai?.origin||'';const since=ai?.active_since||'';
+  let bdg=`<span class="bdg g">${genre}</span>`;
+  if(origin)bdg+=`<span class="bdg">${origin}</span>`;
+  if(since)bdg+=`<span class="bdg">Since ${since}</span>`;
+  document.getElementById('pbdg').innerHTML=bdg;
+  document.getElementById('ptag').textContent=ai?.tagline||wiki?.description||'';
+  if(ai?.ratings){document.getElementById('pscore').textContent=ai.ratings.overall.toFixed(1);setTimeout(()=>{setB('l',ai.ratings.live_show);setB('m',ai.ratings.music);setB('v',ai.ratings.vibe);setB('f',ai.ratings.fanbase);},100);}
+  let p=[];if(wiki)p.push('<div class="pill live">✓ Wikipedia</div>');if(itunes?.tracks?.length)p.push('<div class="pill live">✓ iTunes</div>');if(tm?.length)p.push('<div class="pill live">✓ Ticketmaster</div>');if(ai)p.push('<div class="pill ai">✓ Claude AI</div>');document.getElementById('pills').innerHTML=p.join('');
+  let bh='';if(wiki?.extract){const ps=wiki.extract.split('\n').filter(p=>p.trim().length>50).slice(0,4);bh=ps.map(p=>`<p>${p}</p>`).join('');bh+=`<a class="ws" href="${wiki.content_urls?.desktop?.page||'#'}" target="_blank">📖 Wikipedia</a>`;}else bh=`<p style="color:var(--muted)">No Wikipedia article found for "${name}".</p>`;if(ai?.bio_extra)bh+=`<p style="margin-top:0.8rem">${ai.bio_extra}</p>`;document.getElementById('bio').innerHTML=bh;
+  const tracks=itunes?.tracks?.slice(0,10)||[];document.getElementById('songs').innerHTML=tracks.length?tracks.map((t,i)=>`<div class="song"><span class="snum">${i+1}</span><div class="si2"><div class="stit">${t.trackName||'Unknown'}</div><div class="salb">${t.collectionName||''}</div></div><span class="sdur">${msm(t.trackTimeMillis)}</span></div>`).join(''):`<div class="empty"><p>No tracks found.</p></div>`;
+  document.getElementById('spbtn').onclick=()=>window.open(`https://open.spotify.com/search/${encodeURIComponent(name)}`,'_blank');
+  const albs=itunes?.albums?.slice(0,6)||[];document.getElementById('albums').innerHTML=albs.length?albs.map(a=>`<div class="alb" onclick="window.open('${a.collectionViewUrl||''}','_blank')"><img src="${(a.artworkUrl100||'').replace('100x100','300x300')}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='grid'"><div class="afb" style="display:none">🎵</div><div class="albi"><div class="albt">${a.collectionName||''}</div><div class="alby">${a.releaseDate?.slice(0,4)||''} · ${a.trackCount||0} tracks</div></div></div>`).join(''):`<p style="color:var(--muted);font-size:0.78rem">No albums found.</p>`;
+  let lh='';if(ai?.live_review)lh+=`<div class="lr">${ai.live_review}</div>`;if(ai?.concert_tips)lh+=`<div class="tips">${ai.concert_tips.map(t=>`<div class="tip"><span class="ticon">${t.icon}</span><div class="tb"><strong>${t.title}</strong><span>${t.tip}</span></div></div>`).join('')}</div>`;if(!lh)lh=`<div class="empty"><div class="ei">🎸</div><h4>AI insights unavailable</h4><p>Check Netlify Functions configuration.</p></div>`;document.getElementById('live').innerHTML=lh;
+  if(tm?.length){document.getElementById('concerts').innerHTML=tm.map(e=>{const date=e.dates?.start?.localDate?new Date(e.dates.start.localDate).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'TBA';const v=e._embedded?.venues?.[0];const city=v?`${v.city?.name||''}, ${v.country?.name||''}`:'';return`<div class="cert"><span class="cdate">${date}</span><div class="cv"><div class="cvn">${v?.name||e.name||'TBA'}</div><div class="cvc">📍 ${city}</div></div><button class="tbtn" onclick="window.open('${e.url||''}','_blank')">Tickets →</button></div>`;}).join('');}else document.getElementById('concerts').innerHTML=`<div class="empty"><div class="ei">🎟️</div><h4>No upcoming events</h4></div>`;
+  if(ai?.gossip)document.getElementById('gossip').innerHTML=ai.gossip.map(g=>`<div class="gi"><div class="gsrc">${g.source}</div><div class="gtxt">${g.text}</div><div class="gtm">${g.time}</div></div>`).join('');else document.getElementById('gossip').innerHTML=`<div class="empty"><div class="ei">📰</div><h4>Gossip unavailable</h4></div>`;
 }
 
-function setBar(id, pct) {
-  document.getElementById('rb-'+id).style.width = pct+'%';
-  document.getElementById('rv-'+id).textContent = pct;
-}
-function msToMin(ms) {
-  if (!ms) return '—';
-  const m=Math.floor(ms/60000), s=Math.floor((ms%60000)/1000).toString().padStart(2,'0');
-  return `${m}:${s}`;
-}
+function setB(id,p){document.getElementById('r'+id).style.width=p+'%';document.getElementById('v'+id).textContent=p;}
+function msm(ms){if(!ms)return'—';const m=Math.floor(ms/60000),s=Math.floor((ms%60000)/1000).toString().padStart(2,'0');return`${m}:${s}`;}
 </script>
 </body>
 </html>
