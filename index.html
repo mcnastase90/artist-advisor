@@ -326,7 +326,17 @@ const TM='NBgHcfmi9XxEnrUsSoSWNFV40El9t1Ni';
 const AVC=[['rgba(201,168,76,0.15)','#c9a84c'],['rgba(82,196,122,0.12)','#52c47a'],['rgba(224,82,82,0.12)','#e05252'],['rgba(120,100,200,0.15)','#a090e8'],['rgba(64,180,220,0.12)','#40b4dc'],['rgba(220,140,60,0.12)','#dc8c3c']];
 let cp=0;
 const TR=[{n:'Taylor Swift',g:'Pop / Country',s:4.9},{n:'Kendrick Lamar',g:'Hip-Hop',s:4.8},{n:'The Weeknd',g:'R&B / Pop',s:4.7},{n:'Adele',g:'Soul / Pop',s:4.9},{n:'Billie Eilish',g:'Alt Pop',s:4.6},{n:'Drake',g:'Hip-Hop / Rap',s:4.5},{n:'Coldplay',g:'Alternative',s:4.7},{n:'Bad Bunny',g:'Reggaeton',s:4.8},{n:'Beyoncé',g:'Pop / R&B',s:4.9},{n:'Doja Cat',g:'Pop / Rap',s:4.5},{n:'Post Malone',g:'Hip-Hop / Pop',s:4.4},{n:'SZA',g:'R&B / Neo Soul',s:4.7}];
-const FV=[{e:'🎪',n:'Glastonbury',l:'Somerset, UK',d:'25–29 Jun 2025',t:['Rock','Pop','Electronic']},{e:'🌴',n:'Coachella',l:'California, USA',d:'11–20 Apr 2025',t:['Indie','Hip-Hop','Electronic']},{e:'🔥',n:'Tomorrowland',l:'Boom, Belgium',d:'18–27 Jul 2025',t:['EDM','Techno','House']},{e:'🎸',n:'Reading & Leeds',l:'UK',d:'22–24 Aug 2025',t:['Rock','Alternative']},{e:'🌊',n:'Ultra',l:'Miami, USA',d:'28–30 Mar 2025',t:['EDM','Techno']},{e:'🎵',n:'Untold',l:'Cluj-Napoca, Romania',d:'7–10 Aug 2025',t:['EDM','Pop','Hip-Hop']},{e:'🌞',n:'Lollapalooza',l:'Chicago, USA',d:'31 Jul–3 Aug 2025',t:['Alternative','Rock']},{e:'🎭',n:'Primavera Sound',l:'Barcelona, Spain',d:'29 May–1 Jun 2025',t:['Indie','Electronic']}];
+const FV=[
+  {e:'🎪',n:'Glastonbury',l:'Somerset, UK',d:'25–29 Jun 2025',t:['Rock','Pop','Electronic'],url:'https://www.glastonburyfestivals.co.uk'},
+  {e:'🌴',n:'Coachella',l:'California, USA',d:'11–20 Apr 2025',t:['Indie','Hip-Hop','Electronic'],url:'https://www.coachella.com'},
+  {e:'🔥',n:'Tomorrowland',l:'Boom, Belgium',d:'18–27 Jul 2025',t:['EDM','Techno','House'],url:'https://www.tomorrowland.com'},
+  {e:'🎸',n:'Reading & Leeds',l:'UK',d:'22–24 Aug 2025',t:['Rock','Alternative'],url:'https://www.readingandleedsfestival.com'},
+  {e:'🌊',n:'Ultra',l:'Miami, USA',d:'28–30 Mar 2025',t:['EDM','Techno'],url:'https://ultramusicfestival.com'},
+  {e:'🎵',n:'Untold',l:'Cluj-Napoca, Romania',d:'7–10 Aug 2025',t:['EDM','Pop','Hip-Hop'],url:'https://untold.com'},
+  {e:'🌞',n:'Lollapalooza',l:'Chicago, USA',d:'31 Jul–3 Aug 2025',t:['Alternative','Rock'],url:'https://www.lollapalooza.com'},
+  {e:'🎭',n:'Primavera Sound',l:'Barcelona, Spain',d:'29 May–1 Jun 2025',t:['Indie','Electronic'],url:'https://www.primaverasound.com'},
+  {e:'🏖️',n:'Beach Please',l:'Constanța, Romania',d:'3–6 Jul 2025',t:['Pop','Hip-Hop','Electronic'],url:'https://beachplease.ro'},
+];
 
 // URL ROUTING
 function router() {
@@ -376,7 +386,14 @@ function buildAll() {
     return `<div class="ci" onclick="go('${a.n.replace(/'/g,"\\'")}')"><div class="cn">${i+1}</div><div class="cav" style="background:${bg};color:${fg}">${a.n[0]}</div><div class="cinfo"><div class="cname">${a.n}</div><div class="cgen">${a.g}</div></div><div class="cscore">★ ${a.s}</div></div>`;
   }).join('');
   document.getElementById('fg').innerHTML = FV.map(f=>`
-    <div class="fc"><div class="fe">${f.e}</div><div class="fn">${f.n}</div><div class="fl">📍 ${f.l}</div><div class="fd">${f.d}</div><div class="ftags">${f.t.map(t=>`<span class="ftag">${t}</span>`).join('')}</div></div>`).join('');
+    <div class="fc" onclick="window.open('${f.url}','_blank')" style="cursor:pointer">
+      <div class="fe">${f.e}</div>
+      <div class="fn">${f.n}</div>
+      <div class="fl">📍 ${f.l}</div>
+      <div class="fd">${f.d}</div>
+      <div class="ftags">${f.t.map(t=>`<span class="ftag">${t}</span>`).join('')}</div>
+      <div style="font-size:0.65rem;color:var(--gold);margin-top:6px">Visit website →</div>
+    </div>`).join('');
 }
 
 function sh(n){let s='',r=Math.round(n);for(let i=0;i<5;i++)s+=`<svg class="ms ${i<r?'on':'off'}" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;return s;}
@@ -424,18 +441,18 @@ async function loadProfile(name) {
   ls('lt','active');
   try{const r=await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${encodeURIComponent(name)}&classificationName=music&size=6&apikey=${TM}`);const j=await r.json();tm=j._embedded?.events||[];ls('lt','done');}catch{ls('lt','');}
 
- ls('la','active');
-try{
-  const genre=itunes?.tracks[0]?.primaryGenreName||'music';
-  const prompt=`For artist "${name}" (${genre}), return ONLY valid JSON, no other text:\n{"tagline":"short catchy description","genre":"Genre/Subgenre","origin":"City, Country","active_since":"Year","ratings":{"overall":4.5,"live_show":88,"music":91,"vibe":85,"fanbase":90},"bio_extra":"One sentence about their impact.","live_review":"Two sentences about the concert.","concert_tips":[{"icon":"🎟️","title":"Tickets","tip":"advice"},{"icon":"👗","title":"Outfit","tip":"advice"},{"icon":"📍","title":"Best spot","tip":"advice"}],"gossip":[{"source":"Billboard","text":"One sentence.","time":"1 week ago"},{"source":"TMZ","text":"One sentence.","time":"2 weeks ago"}]}`;
-  const r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:prompt}]})});
-  const j=await r.json();
-  if(j.error) throw new Error(j.error.message||'API error');
-  const raw=j.content?.map(b=>b.text||'').join('')||'';
-  if(!raw) throw new Error('Empty response');
-  ai=JSON.parse(raw.replace(/```json|```/g,'').trim());
-  ls('la','done');
-}catch(e){ls('la','');console.error('AI:',e.message);}
+  ls('la','active');
+  try{
+    const genre=itunes?.tracks[0]?.primaryGenreName||'music';
+    const albs=itunes?.albums?.slice(0,4).map(a=>a.collectionName).join(', ')||'';
+    const prompt=`For artist "${name}" (${genre}), return ONLY valid JSON, no other text:\n{"tagline":"short catchy description","genre":"Genre/Subgenre","origin":"City, Country","active_since":"Year","ratings":{"overall":4.5,"live_show":88,"music":91,"vibe":85,"fanbase":90},"bio_extra":"One sentence about their musical impact and legacy.","live_review":"Two sentences describing the concert atmosphere and energy.","concert_tips":[{"icon":"🎟️","title":"Tickets","tip":"Specific buying advice"},{"icon":"👗","title":"Outfit","tip":"What to wear"},{"icon":"📍","title":"Best spot","tip":"Where to stand"},{"icon":"⏰","title":"Arrival","tip":"When to arrive"},{"icon":"📱","title":"Phones","tip":"Camera policy"}],"gossip":[{"source":"Rolling Stone","text":"Recent career news in one sentence.","time":"1 week ago"},{"source":"Billboard","text":"Chart or album news in one sentence.","time":"2 weeks ago"},{"source":"TMZ","text":"Personal life news in one sentence.","time":"1 month ago"}]}`;
+    const r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:prompt}]})});
+    const j=await r.json();
+    const raw=j.content?.map(b=>b.text||'').join('')||'';
+    ai=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    ls('la','done');
+  }catch(e){ls('la','');console.error('AI:',e);}
+
   render(name,wiki,itunes,tm,ai);
 }
 
