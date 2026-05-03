@@ -1,18 +1,23 @@
 const https = require('https');
 
-exports.handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
-  }
+module.exports = async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
+
   try {
-    const body = JSON.parse(event.body);
+    const { messages } = req.body;
     const payload = JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 2048,
-      messages: body.messages,
+      messages,
     });
+
     const result = await new Promise((resolve, reject) => {
-      const req = https.request({
+      const request = https.request({
         hostname: 'api.anthropic.com',
         path: '/v1/messages',
         method: 'POST',
@@ -22,25 +27,19 @@ exports.handler = async (event) => {
           'anthropic-version': '2023-06-01',
           'Content-Length': Buffer.byteLength(payload),
         },
-      }, (res) => {
+      }, (response) => {
         const chunks = [];
-        res.on('data', chunk => chunks.push(chunk));
-        res.on('end', () => resolve(Buffer.concat(chunks).toString()));
+        response.on('data', chunk => chunks.push(chunk));
+        response.on('end', () => resolve(Buffer.concat(chunks).toString()));
       });
-      req.on('error', reject);
-      req.write(payload);
-      req.end();
+      request.on('error', reject);
+      request.write(payload);
+      request.end();
     });
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: result,
-    };
+
+    const data = JSON.parse(result);
+    return res.status(200).json(data);
   } catch (err) {
-    return {
-      statusCode: 500,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: err.message }),
-    };
+    return res.status(500).json({ error: err.message });
   }
 };
