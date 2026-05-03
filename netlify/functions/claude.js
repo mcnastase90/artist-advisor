@@ -4,15 +4,13 @@ exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
-
   try {
     const body = JSON.parse(event.body);
     const payload = JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 800,
+      max_tokens: 2048,
       messages: body.messages,
     });
-
     const result = await new Promise((resolve, reject) => {
       const req = https.request({
         hostname: 'api.anthropic.com',
@@ -33,13 +31,9 @@ exports.handler = async (event) => {
       req.write(payload);
       req.end();
     });
-
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       body: result,
     };
   } catch (err) {
