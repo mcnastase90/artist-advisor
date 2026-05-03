@@ -58,9 +58,20 @@ header{border-bottom:1px solid var(--border);padding:0 1.25rem;display:flex;alig
 .sl{font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
 .sl::after{content:'';flex:1;height:1px;background:var(--border)}
 .gc{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:10px}
-.ac{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem;cursor:pointer;transition:all 0.2s}
-.ac:hover{border-color:var(--gold);transform:translateY(-2px)}
-.acav{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:0.55rem}
+.gc{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px}
+.ac{background:none;border:none;border-radius:0;padding:0;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:0.6rem;text-align:center}
+.ac:hover{transform:translateY(-4px)}
+.ac:hover .vinyl{transform:rotate(15deg)}
+.ac h3{font-size:0.82rem;font-weight:500;margin-bottom:0;color:var(--text)}
+.ac p{font-size:0.67rem;color:var(--muted)}
+.msr{display:flex;gap:2px;margin-top:3px;justify-content:center}
+.vinyl{width:100px;height:100px;border-radius:50%;position:relative;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);flex-shrink:0}
+.vinyl-outer{width:100%;height:100%;border-radius:50%;background:conic-gradient(from 0deg,#1a1a1a 0%,#2a2a2a 10%,#1a1a1a 20%,#2a2a2a 30%,#1a1a1a 40%,#2a2a2a 50%,#1a1a1a 60%,#2a2a2a 70%,#1a1a1a 80%,#2a2a2a 90%,#1a1a1a 100%);position:absolute;inset:0;box-shadow:0 4px 20px rgba(0,0,0,0.5)}
+.vinyl-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40%;height:40%;border-radius:50%;overflow:hidden;display:grid;place-items:center}
+.vinyl-label img{width:100%;height:100%;object-fit:cover}
+.vinyl-label-bg{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
+.vinyl-hole{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8%;height:8%;border-radius:50%;background:#000;z-index:2}
+.vinyl-rings{position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px)}
 .ac h3{font-size:0.82rem;font-weight:500;margin-bottom:1px}
 .ac p{font-size:0.68rem;color:var(--muted)}
 .msr{display:flex;gap:2px;margin-top:5px}
@@ -99,7 +110,9 @@ header{border-bottom:1px solid var(--border);padding:0 1.25rem;display:flex;alig
 .back:hover{border-color:var(--gold);color:var(--gold)}
 .ph{display:grid;grid-template-columns:1fr;gap:1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--border);margin-bottom:1.1rem}
 @media(min-width:560px){.ph{grid-template-columns:1fr 142px;gap:1.75rem;align-items:start}}
-.phav{width:60px;height:60px;border-radius:50%;font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;display:grid;place-items:center;margin-bottom:0.6rem}
+.phav{width:80px;height:80px;border-radius:50%;font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;display:grid;place-items:center;margin-bottom:0.6rem;overflow:hidden;position:relative}
+.phav img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.phav span{position:relative;z-index:1}
 .phname{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,5vw,2.6rem);line-height:1.1;letter-spacing:-0.02em;margin-bottom:0.4rem}
 .phbdg{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0.55rem}
 .bdg{display:inline-flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:3px 9px;font-size:0.66rem;color:var(--muted)}
@@ -378,12 +391,50 @@ function showPage(page) {
 function buildAll() {
   document.getElementById('tg').innerHTML = TR.map((a,i)=>{
     const[bg,fg]=AVC[i%AVC.length];
-    return `<div class="ac" onclick="go('${a.n.replace(/'/g,"\\'")}')"><div class="acav" style="background:${bg};color:${fg}">${a.n[0]}</div><h3>${a.n}</h3><p>${a.g}</p><div class="msr">${sh(a.s)}</div></div>`;
+    return `<div class="ac" id="ac-${i}" onclick="go('${a.n.replace(/'/g,"\'")}')">
+      <div class="vinyl" id="vinyl-${i}">
+        <div class="vinyl-outer"></div>
+        <div class="vinyl-rings"></div>
+        <div class="vinyl-label" id="vl-${i}">
+          <div class="vinyl-label-bg" style="background:${bg};color:${fg}">${a.n[0]}</div>
+        </div>
+        <div class="vinyl-hole"></div>
+      </div>
+      <h3>${a.n}</h3><p>${a.g}</p>
+      <div class="msr">${sh(a.s)}</div>
+    </div>`;
   }).join('');
+  TR.forEach(async (a,i)=>{
+    try{
+      const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(a.n)}`);
+      if(!r.ok)return;
+      const j=await r.json();
+      const img=j.thumbnail?.source;
+      if(!img)return;
+      const lbl=document.getElementById('vl-'+i);
+      if(lbl)lbl.innerHTML=`<img src="${img}" alt="${a.n}" loading="lazy">`;
+    }catch{}
+  });;
   document.getElementById('cl').innerHTML = TR.map((a,i)=>{
     const[bg,fg]=AVC[i%AVC.length];
-    return `<div class="ci" onclick="go('${a.n.replace(/'/g,"\\'")}')"><div class="cn">${i+1}</div><div class="cav" style="background:${bg};color:${fg}">${a.n[0]}</div><div class="cinfo"><div class="cname">${a.n}</div><div class="cgen">${a.g}</div></div><div class="cscore">★ ${a.s}</div></div>`;
+    return `<div class="ci" id="ci-${i}" onclick="go('${a.n.replace(/'/g,"\'")}')">
+      <div class="cn">${i+1}</div>
+      <div class="cav" id="ci-av-${i}" style="background:${bg};color:${fg};overflow:hidden;position:relative"><span style="position:relative;z-index:1">${a.n[0]}</span></div>
+      <div class="cinfo"><div class="cname">${a.n}</div><div class="cgen">${a.g}</div></div>
+      <div class="cscore">★ ${a.s}</div>
+    </div>`;
   }).join('');
+  TR.forEach(async (a,i)=>{
+    try{
+      const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(a.n)}`);
+      if(!r.ok)return;
+      const j=await r.json();
+      const img=j.thumbnail?.source;
+      if(!img)return;
+      const avEl=document.getElementById('ci-av-'+i);
+      if(avEl)avEl.innerHTML=`<img src="${img}" alt="${a.n}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">`;
+    }catch{}
+  });;
   document.getElementById('fg').innerHTML = FV.map(f=>`
     <div class="fc" onclick="window.open('${f.url}','_blank')" style="cursor:pointer">
       <div class="fe">${f.e}</div>
@@ -469,7 +520,12 @@ function render(name,wiki,itunes,tm,ai){
   document.getElementById('ls').style.display='none';
   document.getElementById('pc').style.display='block';
   const[bg,fg]=AVC[cp];
-  const av=document.getElementById('pav');av.style.background=bg;av.style.color=fg;av.textContent=name[0].toUpperCase();
+  const av=document.getElementById('pav');
+  av.style.background=bg;av.style.color=fg;
+  av.innerHTML=`<span style="position:relative;z-index:1;font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700">${name[0].toUpperCase()}</span>`;
+  if(wiki?.thumbnail?.source){
+    av.innerHTML=`<img src="${wiki.thumbnail.source}" alt="${name}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:50%"><span style="display:none">${name[0]}</span>`;
+  }
   document.getElementById('pname').textContent=wiki?.title||name;
   const genre=ai?.genre||itunes?.tracks[0]?.primaryGenreName||'Music';
   const origin=ai?.origin||'';const since=ai?.active_since||'';
