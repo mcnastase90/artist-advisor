@@ -438,13 +438,23 @@ async function loadProfile(name) {
   try{const[tr,al]=await Promise.all([fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(name)}&media=music&entity=song&limit=20`).then(r=>r.json()),fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(name)}&media=music&entity=album&limit=6`).then(r=>r.json())]);itunes={tracks:tr.results||[],albums:al.results||[]};ls('li','done');}catch{ls('li','');}
 
   ls('lt','active');
-  try{const r=await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${encodeURIComponent(name)}&classificationName=music&size=6&apikey=${TM}`);const j=await r.json();tm=j._embedded?.events||[];ls('lt','done');}catch{ls('lt','');}
+  try{
+    const r=await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${encodeURIComponent(name)}&classificationName=music&size=12&apikey=${TM}`);
+    const j=await r.json();
+    const TRIBUTE_WORDS=['tribute','salute','celebration of','legacy of','experience','forever','story of','the music of','performed by','vs ','vs.'];
+    const allEvents=j._embedded?.events||[];
+    tm=allEvents.filter(e=>{
+      const n=(e.name||'').toLowerCase();
+      return !TRIBUTE_WORDS.some(w=>n.includes(w));
+    }).slice(0,6);
+    ls('lt','done');
+  }catch{ls('lt','');}
 
   ls('la','active');
   try{
     const genre=itunes?.tracks[0]?.primaryGenreName||'music';
     const albs=itunes?.albums?.slice(0,4).map(a=>a.collectionName).join(', ')||'';
-    const prompt=`For artist "${name}" (${genre}), return ONLY valid JSON, no other text:\n{"tagline":"short catchy description","genre":"Genre/Subgenre","origin":"City, Country","active_since":"Year","ratings":{"overall":4.5,"live_show":88,"music":91,"vibe":85,"fanbase":90},"bio_extra":"One sentence about their musical impact and legacy.","live_review":"Two sentences describing the concert atmosphere and energy.","concert_tips":[{"icon":"🎟️","title":"Tickets","tip":"Specific buying advice"},{"icon":"👗","title":"Outfit","tip":"What to wear"},{"icon":"📍","title":"Best spot","tip":"Where to stand"},{"icon":"⏰","title":"Arrival","tip":"When to arrive"},{"icon":"📱","title":"Phones","tip":"Camera policy"}],"gossip":[{"source":"Rolling Stone","text":"Recent career news in one sentence.","time":"1 week ago"},{"source":"Billboard","text":"Chart or album news in one sentence.","time":"2 weeks ago"},{"source":"TMZ","text":"Personal life news in one sentence.","time":"1 month ago"}]}`;
+    const prompt=`For artist "${name}" (${genre}), return ONLY valid JSON, no other text:\n{"tagline":"short catchy description","genre":"Genre/Subgenre","origin":"City, Country","active_since":"Year","ratings":{"overall":4.5,"live_show":88,"music":91,"vibe":85,"fanbase":90} where overall is 0.0-5.0 and live_show/music/vibe/fanbase are 0-100 where overall is 0.0-5.0 and live_show/music/vibe/fanbase are 0-100,"bio_extra":"One sentence about their musical impact and legacy.","live_review":"Two sentences describing the concert atmosphere and energy.","concert_tips":[{"icon":"🎟️","title":"Tickets","tip":"Specific buying advice"},{"icon":"👗","title":"Outfit","tip":"What to wear"},{"icon":"📍","title":"Best spot","tip":"Where to stand"},{"icon":"⏰","title":"Arrival","tip":"When to arrive"},{"icon":"📱","title":"Phones","tip":"Camera policy"}],"gossip":[{"source":"Rolling Stone","text":"Recent career news in one sentence.","time":"1 week ago"},{"source":"Billboard","text":"Chart or album news in one sentence.","time":"2 weeks ago"},{"source":"TMZ","text":"Personal life news in one sentence.","time":"1 month ago"}]}`;
     const r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:prompt}]})});
     const j=await r.json();
     const raw=j.content?.map(b=>b.text||'').join('')||'';
@@ -468,7 +478,11 @@ function render(name,wiki,itunes,tm,ai){
   if(since)bdg+=`<span class="bdg">Since ${since}</span>`;
   document.getElementById('pbdg').innerHTML=bdg;
   document.getElementById('ptag').textContent=ai?.tagline||wiki?.description||'';
-  if(ai?.ratings){document.getElementById('pscore').textContent=ai.ratings.overall.toFixed(1);setTimeout(()=>{setB('l',ai.ratings.live_show);setB('m',ai.ratings.music);setB('v',ai.ratings.vibe);setB('f',ai.ratings.fanbase);},100);}
+  if(ai?.ratings){
+  const overall = ai.ratings.overall > 5 ? (ai.ratings.overall/20).toFixed(1) : ai.ratings.overall.toFixed(1);
+  document.getElementById('pscore').textContent=overall;
+  setTimeout(()=>{setB('l',ai.ratings.live_show);setB('m',ai.ratings.music);setB('v',ai.ratings.vibe);setB('f',ai.ratings.fanbase);},100);
+}
   let p=[];if(wiki)p.push('<div class="pill live">✓ Wikipedia</div>');if(itunes?.tracks?.length)p.push('<div class="pill live">✓ iTunes</div>');if(tm?.length)p.push('<div class="pill live">✓ Ticketmaster</div>');if(ai)p.push('<div class="pill ai">✓ Claude AI</div>');document.getElementById('pills').innerHTML=p.join('');
   let bh='';if(wiki?.extract){const ps=wiki.extract.split('\n').filter(p=>p.trim().length>50).slice(0,4);bh=ps.map(p=>`<p>${p}</p>`).join('');bh+=`<a class="ws" href="${wiki.content_urls?.desktop?.page||'#'}" target="_blank">📖 Wikipedia</a>`;}else bh=`<p style="color:var(--muted)">No Wikipedia article found for "${name}".</p>`;if(ai?.bio_extra)bh+=`<p style="margin-top:0.8rem">${ai.bio_extra}</p>`;document.getElementById('bio').innerHTML=bh;
   const tracks=itunes?.tracks?.slice(0,10)||[];document.getElementById('songs').innerHTML=tracks.length?tracks.map((t,i)=>`<div class="song"><span class="snum">${i+1}</span><div class="si2"><div class="stit">${t.trackName||'Unknown'}</div><div class="salb">${t.collectionName||''}</div></div><span class="sdur">${msm(t.trackTimeMillis)}</span></div>`).join(''):`<div class="empty"><p>No tracks found.</p></div>`;
@@ -476,10 +490,19 @@ function render(name,wiki,itunes,tm,ai){
   const albs=itunes?.albums?.slice(0,6)||[];document.getElementById('albums').innerHTML=albs.length?albs.map(a=>`<div class="alb" onclick="window.open('${a.collectionViewUrl||''}','_blank')"><img src="${(a.artworkUrl100||'').replace('100x100','300x300')}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='grid'"><div class="afb" style="display:none">🎵</div><div class="albi"><div class="albt">${a.collectionName||''}</div><div class="alby">${a.releaseDate?.slice(0,4)||''} · ${a.trackCount||0} tracks</div></div></div>`).join(''):`<p style="color:var(--muted);font-size:0.78rem">No albums found.</p>`;
   let lh='';if(ai?.live_review)lh+=`<div class="lr">${ai.live_review}</div>`;if(ai?.concert_tips)lh+=`<div class="tips">${ai.concert_tips.map(t=>`<div class="tip"><span class="ticon">${t.icon}</span><div class="tb"><strong>${t.title}</strong><span>${t.tip}</span></div></div>`).join('')}</div>`;if(!lh)lh=`<div class="empty"><div class="ei">🎸</div><h4>AI insights unavailable</h4><p>Check Netlify Functions configuration.</p></div>`;document.getElementById('live').innerHTML=lh;
   if(tm?.length){document.getElementById('concerts').innerHTML=tm.map(e=>{const date=e.dates?.start?.localDate?new Date(e.dates.start.localDate).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'TBA';const v=e._embedded?.venues?.[0];const city=v?`${v.city?.name||''}, ${v.country?.name||''}`:'';return`<div class="cert"><span class="cdate">${date}</span><div class="cv"><div class="cvn">${v?.name||e.name||'TBA'}</div><div class="cvc">📍 ${city}</div></div><button class="tbtn" onclick="window.open('${e.url||''}','_blank')">Tickets →</button></div>`;}).join('');}else document.getElementById('concerts').innerHTML=`<div class="empty"><div class="ei">🎟️</div><h4>No upcoming events</h4></div>`;
-  if(ai?.gossip)document.getElementById('gossip').innerHTML=ai.gossip.map(g=>`<div class="gi"><div class="gsrc">${g.source}</div><div class="gtxt">${g.text}</div><div class="gtm">${g.time}</div></div>`).join('');else document.getElementById('gossip').innerHTML=`<div class="empty"><div class="ei">📰</div><h4>Gossip unavailable</h4></div>`;
+  if(ai?.gossip)document.getElementById('gossip').innerHTML=ai.gossip.map(g=>`
+  <div class="gi" onclick="window.open('https://news.google.com/search?q=${encodeURIComponent(name+' '+g.source)}','_blank')" style="cursor:pointer;transition:opacity 0.18s" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
+    <div class="gsrc">${g.source} ↗</div>
+    <div class="gtxt">${g.text}</div>
+    <div class="gtm">${g.time}</div>
+  </div>`).join('');else document.getElementById('gossip').innerHTML=`<div class="empty"><div class="ei">📰</div><h4>Gossip unavailable</h4></div>`;
 }
 
-function setB(id,p){document.getElementById('r'+id).style.width=p+'%';document.getElementById('v'+id).textContent=p;}
+function setB(id,raw){
+  const pct = raw <= 5 ? Math.round(raw * 20) : raw;
+  document.getElementById('r'+id).style.width=pct+'%';
+  document.getElementById('v'+id).textContent=pct;
+}
 function msm(ms){if(!ms)return'—';const m=Math.floor(ms/60000),s=Math.floor((ms%60000)/1000).toString().padStart(2,'0');return`${m}:${s}`;}
 </script>
 </body>
