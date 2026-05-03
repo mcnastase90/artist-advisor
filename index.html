@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Advisor — Your Music Travel Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#09090b;--bg2:#111114;--bg3:#17171b;--bg4:#1e1e24;--gold:#c9a84c;--gold2:#e8c97a;--gdim:rgba(201,168,76,0.12);--text:#ede9e0;--muted:#8a8780;--faint:#4a4a50;--border:#222228;--border2:#2e2e36;--green:#52c47a;--r:12px;--rs:8px}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* HEADER */
+header{border-bottom:1px solid var(--border);padding:0 1.25rem;display:flex;align-items:center;height:54px;position:sticky;top:0;z-index:200;background:rgba(9,9,11,0.95);backdrop-filter:blur(16px);gap:6px}
+.logo{display:flex;align-items:center;gap:7px;flex-shrink:0;cursor:pointer}
+.lm{width:27px;height:27px;background:var(--gold);border-radius:6px;display:grid;place-items:center}
+.lm svg{width:14px;height:14px;fill:var(--bg)}
+.ln{font-family:'Playfair Display',serif;font-size:1.05rem;white-space:nowrap}
+.ln b{color:var(--gold)}
+.dnav{display:none;gap:2px;margin-left:6px}
+@media(min-width:640px){.dnav{display:flex}}
+.dnav a{padding:5px 9px;border-radius:var(--rs);font-size:0.8rem;color:var(--muted);cursor:pointer;transition:all 0.18s}
+.dnav a:hover,.dnav a.active{background:var(--bg3);color:var(--text)}
+.hright{display:flex;align-items:center;gap:5px;margin-left:auto;flex-shrink:0}
+.dots{display:flex;align-items:center;gap:3px}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.dl{font-size:0.58rem;color:var(--muted)}
+.burger{background:none;border:1px solid var(--border2);border-radius:var(--rs);width:32px;height:32px;display:grid;place-items:center;cursor:pointer;flex-shrink:0}
+@media(min-width:640px){.burger{display:none}}
+.burger svg{width:15px;height:15px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round}
+.mob{display:none;position:fixed;top:54px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);z-index:199;padding:0.6rem 1.25rem;flex-direction:column;gap:2px}
+.mob.open{display:flex}
+.mob a{padding:10px 12px;border-radius:var(--rs);font-size:0.9rem;color:var(--muted);cursor:pointer;transition:all 0.18s}
+.mob a:hover{background:var(--bg3);color:var(--text)}
+
+/* HERO */
+.hero{padding:3rem 1.25rem 2.5rem;text-align:center;max-width:800px;margin:0 auto}
+.ey{font-size:0.62rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.9rem;display:flex;align-items:center;justify-content:center;gap:8px}
+.ey::before,.ey::after{content:'';width:24px;height:1px;background:var(--gdim)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,6vw,4rem);line-height:1.08;letter-spacing:-0.02em;margin-bottom:0.8rem}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hs{font-size:0.88rem;color:var(--muted);font-weight:300;line-height:1.75;max-width:440px;margin:0 auto 1.75rem}
+.sw{max-width:540px;margin:0 auto}
+.sr{display:flex;gap:7px}
+.si{flex:1;min-width:0;background:var(--bg2);border:1.5px solid var(--border2);border-radius:var(--r);padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.93rem;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s}
+.si::placeholder{color:var(--faint)}
+.si:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.1)}
+.sg{background:var(--gold);border:none;border-radius:var(--r);padding:0 1rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--bg);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.18s}
+.sg:hover{background:var(--gold2)}
+.picks{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:0.85rem}
+.pick{background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:5px 12px;font-size:0.73rem;color:var(--muted);cursor:pointer;transition:all 0.18s}
+.pick:hover{border-color:var(--gold);color:var(--gold)}
+
+/* SECTIONS */
+.sec{max-width:1040px;margin:0 auto;padding:2.25rem 1.25rem}
+.sl{font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.sl::after{content:'';flex:1;height:1px;background:var(--border)}
+.gc{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:10px}
+.gc{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px}
+.ac{background:none;border:none;border-radius:0;padding:0;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:0.6rem;text-align:center}
+.ac:hover{transform:translateY(-4px)}
+.ac:hover .vinyl{transform:rotate(15deg)}
+.ac h3{font-size:0.82rem;font-weight:500;margin-bottom:0;color:var(--text)}
+.ac p{font-size:0.67rem;color:var(--muted)}
+.msr{display:flex;gap:2px;margin-top:3px;justify-content:center}
+.vinyl{width:100px;height:100px;border-radius:50%;position:relative;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);flex-shrink:0}
+.vinyl-outer{width:100%;height:100%;border-radius:50%;background:conic-gradient(from 0deg,#1a1a1a 0%,#2a2a2a 10%,#1a1a1a 20%,#2a2a2a 30%,#1a1a1a 40%,#2a2a2a 50%,#1a1a1a 60%,#2a2a2a 70%,#1a1a1a 80%,#2a2a2a 90%,#1a1a1a 100%);position:absolute;inset:0;box-shadow:0 4px 20px rgba(0,0,0,0.5)}
+.vinyl-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40%;height:40%;border-radius:50%;overflow:hidden;display:grid;place-items:center}
+.vinyl-label img{width:100%;height:100%;object-fit:cover}
+.vinyl-label-bg{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
+.vinyl-hole{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8%;height:8%;border-radius:50%;background:#000;z-index:2}
+.vinyl-rings{position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px)}
+.ac h3{font-size:0.82rem;font-weight:500;margin-bottom:1px}
+.ac p{font-size:0.68rem;color:var(--muted)}
+.msr{display:flex;gap:2px;margin-top:5px}
+.ms{width:8px;height:8px}.ms.on{fill:var(--gold)}.ms.off{fill:var(--border2)}
+.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px}
+.cs{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem}
+
+/* CHARTS */
+.subpage{max-width:820px;margin:0 auto;padding:2.25rem 1.25rem;display:none}
+.subpage.active{display:block}
+.pt{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,2.2rem);margin-bottom:0.35rem}
+.ps{font-size:0.83rem;color:var(--muted);margin-bottom:1.5rem}
+.cl{display:grid;gap:7px}
+.ci{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0.8rem 1rem;display:flex;align-items:center;gap:0.85rem;cursor:pointer;transition:all 0.2s}
+.ci:hover{border-color:var(--gold);transform:translateX(3px)}
+.cn{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--gold);width:30px;text-align:center;flex-shrink:0}
+.cav{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;flex-shrink:0}
+.cinfo{flex:1}.cname{font-size:0.87rem;font-weight:500}.cgen{font-size:0.68rem;color:var(--muted)}
+.cscore{font-family:'DM Mono',monospace;font-size:0.74rem;color:var(--gold);flex-shrink:0}
+
+/* FESTIVALS */
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.fc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;transition:border-color 0.2s}
+.fc:hover{border-color:var(--gold)}
+.fe{font-size:1.6rem;margin-bottom:0.35rem}
+.fn{font-size:0.9rem;font-weight:500;margin-bottom:2px}
+.fl{font-size:0.7rem;color:var(--muted);margin-bottom:4px}
+.fd{font-size:0.68rem;font-family:'DM Mono',monospace;color:var(--gold)}
+.ftags{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
+.ftag{font-size:0.61rem;padding:2px 6px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--muted)}
+
+/* PROFILE */
+#pv{display:none}
+.pw{max-width:1020px;margin:0 auto;padding:1.5rem 1.25rem}
+.back{background:none;border:1px solid var(--border2);border-radius:var(--rs);padding:5px 12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.77rem;cursor:pointer;display:inline-flex;align-items:center;gap:5px;margin-bottom:1.1rem;transition:all 0.18s}
+.back:hover{border-color:var(--gold);color:var(--gold)}
+.ph{display:grid;grid-template-columns:1fr;gap:1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--border);margin-bottom:1.1rem}
+@media(min-width:560px){.ph{grid-template-columns:1fr 142px;gap:1.75rem;align-items:start}}
+.phav{width:80px;height:80px;border-radius:50%;font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;display:grid;place-items:center;margin-bottom:0.6rem;overflow:hidden;position:relative}
+.phav img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.phav span{position:relative;z-index:1}
+.phname{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,5vw,2.6rem);line-height:1.1;letter-spacing:-0.02em;margin-bottom:0.4rem}
+.phbdg{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0.55rem}
+.bdg{display:inline-flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:3px 9px;font-size:0.66rem;color:var(--muted)}
+.bdg.g{border-color:rgba(201,168,76,0.35);color:var(--gold);background:var(--gdim)}
+.phtag{font-size:0.86rem;color:var(--muted);font-weight:300;line-height:1.6}
+.sb{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:1rem}
+@media(max-width:559px){.sb{display:grid;grid-template-columns:auto 1fr;gap:0.85rem;align-items:center}}
+.sbig{font-family:'Playfair Display',serif;font-size:2.7rem;color:var(--gold);line-height:1;text-align:center}
+.slbl{font-size:0.55rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);text-align:center;margin-top:2px}
+.rbars{display:grid;gap:6px;margin-top:0.75rem}
+@media(max-width:559px){.rbars{margin-top:0}}
+.rb{display:flex;align-items:center;gap:6px;font-size:0.63rem;color:var(--muted)}
+.rbn{min-width:46px;font-size:0.62rem}
+.rbt{flex:1;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.rbf{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;width:0;transition:width 1.1s cubic-bezier(0.22,1,0.36,1)}
+.rbv{min-width:18px;text-align:right;color:var(--faint);font-size:0.6rem}
+.pills{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1rem}
+.pill{font-size:0.61rem;padding:2px 7px;border-radius:20px;border:1px solid var(--border2);color:var(--muted)}
+.pill.live{border-color:rgba(82,196,122,0.3);color:var(--green)}
+.pill.ai{border-color:rgba(201,168,76,0.3);color:var(--gold)}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.1rem;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:none;border-bottom:2px solid transparent;padding:0.55rem 0.8rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.78rem;cursor:pointer;transition:all 0.18s;white-space:nowrap;margin-bottom:-1px;flex-shrink:0}
+.tab:hover{color:var(--text)}.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.panel{display:none}.panel.on{display:block}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0.95rem}
+.ct{font-size:0.58rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint);margin-bottom:0.8rem}
+.tc{display:grid;grid-template-columns:1fr;gap:0.95rem}
+@media(min-width:530px){.tc{grid-template-columns:1fr 1fr}}
+.bt{font-size:0.85rem;line-height:1.85;color:var(--text);font-weight:300}
+.bt p{margin-bottom:0.8rem}.bt p:last-child{margin-bottom:0}
+.ws{display:inline-flex;align-items:center;gap:4px;font-size:0.66rem;color:var(--muted);margin-top:0.55rem;padding:3px 8px;background:var(--bg3);border-radius:20px;border:1px solid var(--border)}
+.songs{display:grid;gap:3px}
+.song{display:flex;align-items:center;gap:8px;padding:6px 5px;border-radius:var(--rs);transition:background 0.15s}
+.song:hover{background:var(--bg3)}
+.snum{font-family:'DM Mono',monospace;font-size:0.66rem;color:var(--faint);width:14px;text-align:center;flex-shrink:0}
+.si2{flex:1;min-width:0}
+.stit{font-size:0.82rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.salb{font-size:0.67rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sdur{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--faint);flex-shrink:0}
+.sprow{display:flex;align-items:center;gap:5px;margin-top:0.55rem;padding-top:0.55rem;border-top:1px solid var(--border)}
+.spbtn{display:inline-flex;align-items:center;gap:5px;background:#1db954;border:none;border-radius:20px;padding:5px 11px;font-family:'DM Sans',sans-serif;font-size:0.7rem;font-weight:500;color:#000;cursor:pointer}
+.spbtn:hover{opacity:0.85}
+.spbtn svg{width:11px;height:11px;fill:#000}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.alb{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);overflow:hidden;cursor:pointer;transition:border-color 0.18s}
+.alb:hover{border-color:var(--gold)}
+.alb img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.afb{width:100%;aspect-ratio:1;display:grid;place-items:center;font-size:1.8rem;background:var(--bg4)}
+.albi{padding:6px 8px}
+.albt{font-size:0.77rem;font-weight:500;color:var(--text)}
+.alby{font-size:0.65rem;color:var(--muted)}
+.lr{font-size:0.85rem;line-height:1.85;color:var(--text);font-weight:300;margin-bottom:0.9rem}
+.tips{display:grid;gap:6px}
+.tip{display:flex;gap:8px;padding:7px 9px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs)}
+.ticon{font-size:0.95rem;flex-shrink:0;margin-top:1px}
+.tb strong{display:block;font-size:0.76rem;font-weight:500;color:var(--text);margin-bottom:1px}
+.tb span{font-size:0.73rem;color:var(--muted);line-height:1.5}
+.certs{display:grid;gap:6px}
+.cert{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:0.75rem 0.9rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
+.cdate{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--gold);min-width:78px;flex-shrink:0}
+.cv{flex:1;min-width:85px}
+.cvn{font-size:0.83rem;font-weight:500}
+.cvc{font-size:0.68rem;color:var(--muted);margin-top:1px}
+.tbtn{background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:var(--rs);padding:4px 10px;font-size:0.69rem;cursor:pointer;white-space:nowrap;transition:all 0.18s;font-family:'DM Sans',sans-serif}
+.tbtn:hover{background:var(--gold);color:var(--bg)}
+.goss{display:grid;gap:9px}
+.gi{border-left:2px solid var(--gold);padding-left:9px}
+.gsrc{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold);margin-bottom:3px}
+.gtxt{font-size:0.81rem;line-height:1.65;color:var(--muted)}
+.gtm{font-size:0.62rem;color:var(--faint);margin-top:3px}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3.5rem 1.5rem;gap:0.7rem}
+.spinner{width:28px;height:28px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{color:var(--muted);font-size:0.82rem}
+.lsteps{display:grid;gap:4px;margin-top:0.3rem}
+.lstep{font-size:0.68rem;color:var(--faint);display:flex;align-items:center;gap:5px;transition:color 0.3s}
+.lstep.active{color:var(--gold)}.lstep.done{color:var(--green)}
+.ld{width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0}
+.empty{text-align:center;padding:1.5rem;color:var(--muted)}
+.ei{font-size:1.5rem;margin-bottom:0.4rem}
+.empty h4{font-size:0.84rem;font-weight:500;margin-bottom:2px;color:var(--text)}
+.empty p{font-size:0.75rem;line-height:1.6}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="nav('home')">
+    <div class="lm"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm12-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></div>
+    <span class="ln">Artist<b>Advisor</b></span>
+  </div>
+  <nav class="dnav">
+    <a id="nav-home" onclick="nav('home')" class="active">Discover</a>
+    <a id="nav-charts" onclick="nav('charts')">Charts</a>
+    <a id="nav-festivals" onclick="nav('festivals')">Festivals</a>
+  </nav>
+  <div class="hright">
+    <div class="dots">
+      <span class="dot"></span><span class="dl">Wiki</span>
+      <span class="dot" style="margin-left:3px"></span><span class="dl">iTunes</span>
+      <span class="dot" style="margin-left:3px"></span><span class="dl">TM</span>
+      <span class="dot" style="margin-left:3px"></span><span class="dl">AI</span>
+    </div>
+    <button class="burger" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="mob" id="mob">
+  <a onclick="nav('home');closeMob()">Discover</a>
+  <a onclick="nav('charts');closeMob()">Charts</a>
+  <a onclick="nav('festivals');closeMob()">Festivals</a>
+</div>
+
+<!-- HOME -->
+<div id="pg-home">
+  <div class="hero">
+    <div class="ey">Your Complete Music Travel Guide</div>
+    <h1>Discover every<br>artist <em>in depth</em></h1>
+    <p class="hs">Real bios, top tracks, concert dates & AI-powered insights.</p>
+    <div class="sw">
+      <div class="sr">
+        <input class="si" id="si" type="text" placeholder="Search any artist…" onkeydown="if(event.key==='Enter')doSearch()">
+        <button class="sg" onclick="doSearch()">Search →</button>
+      </div>
+      <div class="picks">
+        <span class="pick" onclick="go('Taylor Swift')">Taylor Swift</span>
+        <span class="pick" onclick="go('Kendrick Lamar')">Kendrick Lamar</span>
+        <span class="pick" onclick="go('Adele')">Adele</span>
+        <span class="pick" onclick="go('The Weeknd')">The Weeknd</span>
+        <span class="pick" onclick="go('Billie Eilish')">Billie Eilish</span>
+        <span class="pick" onclick="go('Drake')">Drake</span>
+        <span class="pick" onclick="go('Coldplay')">Coldplay</span>
+        <span class="pick" onclick="go('Bad Bunny')">Bad Bunny</span>
+        <span class="pick" onclick="go('Beyoncé')">Beyoncé</span>
+        <span class="pick" onclick="go('Doja Cat')">Doja Cat</span>
+      </div>
+    </div>
+  </div>
+  <div class="sec"><div class="sl">Trending artists</div><div class="gc" id="tg"></div></div>
+  <div class="sec" style="padding-top:0">
+    <div class="sl">How it works</div>
+    <div class="hg">
+      <div class="cs"><div style="font-size:1.3rem;margin-bottom:0.35rem">📖</div><div style="font-size:0.8rem;font-weight:500;margin-bottom:2px">Wikipedia Bios</div><div style="font-size:0.72rem;color:var(--muted);line-height:1.6">Real auto-fetched biographies.</div></div>
+      <div class="cs"><div style="font-size:1.3rem;margin-bottom:0.35rem">🎵</div><div style="font-size:0.8rem;font-weight:500;margin-bottom:2px">iTunes Tracks</div><div style="font-size:0.72rem;color:var(--muted);line-height:1.6">Top songs & albums from Apple.</div></div>
+      <div class="cs"><div style="font-size:1.3rem;margin-bottom:0.35rem">🎟️</div><div style="font-size:0.8rem;font-weight:500;margin-bottom:2px">Concert Dates</div><div style="font-size:0.72rem;color:var(--muted);line-height:1.6">Real events from Ticketmaster.</div></div>
+      <div class="cs"><div style="font-size:1.3rem;margin-bottom:0.35rem">✨</div><div style="font-size:0.8rem;font-weight:500;margin-bottom:2px">AI Insights</div><div style="font-size:0.72rem;color:var(--muted);line-height:1.6">Ratings & gossip by Claude AI.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CHARTS -->
+<div class="subpage" id="pg-charts">
+  <h1 class="pt">Top Artists <em style="font-style:italic;color:var(--gold)">2026</em></h1>
+  <p class="ps">Highest-rated artists on Artist Advisor right now.</p>
+  <div class="cl" id="cl"></div>
+</div>
+
+<!-- FESTIVALS -->
+<div class="subpage" id="pg-festivals">
+  <h1 class="pt">Music <em style="font-style:italic;color:var(--gold)">Festivals</em></h1>
+  <p class="ps">The world's biggest festivals — dates and what to expect.</p>
+  <div class="fg" id="fg"></div>
+</div>
+
+<!-- PROFILE -->
+<div id="pv">
+  <div class="pw">
+    <button class="back" onclick="history.back()">← Back</button>
+    <div id="ls" class="loading" style="display:none">
+      <div class="spinner"></div>
+      <p>Building artist profile…</p>
+      <div class="lsteps">
+        <div class="lstep" id="lw"><span class="ld"></span>Fetching Wikipedia bio</div>
+        <div class="lstep" id="li"><span class="ld"></span>Loading iTunes tracks & albums</div>
+        <div class="lstep" id="lt"><span class="ld"></span>Checking Ticketmaster events</div>
+        <div class="lstep" id="la"><span class="ld"></span>Generating AI insights</div>
+      </div>
+    </div>
+    <div id="pc" style="display:none">
+      <div class="ph">
+        <div>
+          <div id="pav" class="phav"></div>
+          <h1 id="pname" class="phname"></h1>
+          <div id="pbdg" class="phbdg"></div>
+          <p id="ptag" class="phtag"></p>
+        </div>
+        <div class="sb">
+          <div><div id="pscore" class="sbig">—</div><div class="slbl">Artist Advisor Score</div></div>
+          <div class="rbars">
+            <div class="rb"><span class="rbn">Live</span><div class="rbt"><div class="rbf" id="rl"></div></div><span class="rbv" id="vl"></span></div>
+            <div class="rb"><span class="rbn">Music</span><div class="rbt"><div class="rbf" id="rm"></div></div><span class="rbv" id="vm"></span></div>
+            <div class="rb"><span class="rbn">Vibe</span><div class="rbt"><div class="rbf" id="rv"></div></div><span class="rbv" id="vv"></span></div>
+            <div class="rb"><span class="rbn">Fans</span><div class="rbt"><div class="rbf" id="rf"></div></div><span class="rbv" id="vf"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="pills" id="pills"></div>
+      <div class="tabs">
+        <button class="tab on" onclick="st('bio',this)">Biography</button>
+        <button class="tab" onclick="st('music',this)">Music</button>
+        <button class="tab" onclick="st('live',this)">Live Experience</button>
+        <button class="tab" onclick="st('concerts',this)">Concerts</button>
+        <button class="tab" onclick="st('gossip',this)">Gossip</button>
+      </div>
+      <div id="pb-bio" class="panel on"><div class="tc"><div class="card" style="grid-column:1/-1"><div class="ct">About the artist</div><div id="bio" class="bt"></div></div></div></div>
+      <div id="pb-music" class="panel"><div class="tc">
+        <div class="card"><div class="ct">Top tracks</div><div id="songs" class="songs"></div>
+          <div class="sprow"><button class="spbtn" id="spbtn"><svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>Open in Spotify</button></div>
+        </div>
+        <div class="card"><div class="ct">Albums</div><div id="albums" class="ag"></div></div>
+      </div></div>
+      <div id="pb-live" class="panel"><div class="card"><div class="ct">What to expect at a concert</div><div id="live"></div></div></div>
+      <div id="pb-concerts" class="panel"><div class="card"><div class="ct">Upcoming events</div><div id="concerts" class="certs"></div></div></div>
+      <div id="pb-gossip" class="panel"><div class="card"><div class="ct">Latest news & gossip</div><div id="gossip" class="goss"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TM='NBgHcfmi9XxEnrUsSoSWNFV40El9t1Ni';
+const AVC=[['rgba(201,168,76,0.15)','#c9a84c'],['rgba(82,196,122,0.12)','#52c47a'],['rgba(224,82,82,0.12)','#e05252'],['rgba(120,100,200,0.15)','#a090e8'],['rgba(64,180,220,0.12)','#40b4dc'],['rgba(220,140,60,0.12)','#dc8c3c']];
+let cp=0;
+const TR=[{n:'Taylor Swift',g:'Pop / Country',s:4.9},{n:'Kendrick Lamar',g:'Hip-Hop',s:4.8},{n:'The Weeknd',g:'R&B / Pop',s:4.7},{n:'Adele',g:'Soul / Pop',s:4.9},{n:'Billie Eilish',g:'Alt Pop',s:4.6},{n:'Drake',g:'Hip-Hop / Rap',s:4.5},{n:'Coldplay',g:'Alternative',s:4.7},{n:'Bad Bunny',g:'Reggaeton',s:4.8},{n:'Beyoncé',g:'Pop / R&B',s:4.9},{n:'Doja Cat',g:'Pop / Rap',s:4.5},{n:'Post Malone',g:'Hip-Hop / Pop',s:4.4},{n:'SZA',g:'R&B / Neo Soul',s:4.7}];
+const FV=[
+  {e:'🌴',n:'Coachella',l:'California, USA',d:'10–19 Apr 2026',t:['Indie','Pop','Electronic'],url:'https://www.coachella.com'},
+  {e:'🔥',n:'Tomorrowland',l:'Boom, Belgium',d:'17–26 Jul 2026',t:['EDM','Techno','House'],url:'https://www.tomorrowland.com'},
+  {e:'🎸',n:'Reading & Leeds',l:'UK',d:'27–30 Aug 2026',t:['Rock','Pop','Alternative'],url:'https://www.readingandleedsfestival.com'},
+  {e:'🌊',n:'Ultra Music Festival',l:'Miami, USA',d:'Mar 2026',t:['EDM','Techno'],url:'https://ultramusicfestival.com'},
+  {e:'🎵',n:'Untold',l:'Cluj-Napoca, Romania',d:'6–9 Aug 2026',t:['EDM','Pop','Hip-Hop'],url:'https://untold.com'},
+  {e:'🌞',n:'Lollapalooza',l:'Chicago, USA',d:'30 Jul–2 Aug 2026',t:['Alternative','Rock','Pop'],url:'https://www.lollapalooza.com'},
+  {e:'🎭',n:'Primavera Sound',l:'Barcelona, Spain',d:'Jun 2026',t:['Indie','Electronic','Alternative'],url:'https://www.primaverasound.com'},
+  {e:'🏖️',n:'Beach Please',l:'Costinești, Romania',d:'8–12 Jul 2026',t:['Hip-Hop','Trap','Urban'],url:'https://beach-please.ro/'},
+];
+
+// URL ROUTING
+function router() {
+  const hash = window.location.hash;
+  if (hash.startsWith('#artist/')) {
+    const name = decodeURIComponent(hash.replace('#artist/', '').replace(/-/g,' '));
+    showProfile(name);
+  } else if (hash === '#charts') {
+    showPage('charts');
+  } else if (hash === '#festivals') {
+    showPage('festivals');
+  } else {
+    showPage('home');
+  }
+}
+
+window.addEventListener('hashchange', router);
+window.addEventListener('load', () => { buildAll(); router(); });
+
+function closeMob() { document.getElementById('mob').classList.remove('open'); }
+
+function nav(page) {
+  if (page === 'home') window.location.hash = '';
+  else window.location.hash = page;
+}
+
+function showPage(page) {
+  document.getElementById('pg-home').style.display = page==='home' ? '' : 'none';
+  document.getElementById('pg-charts').classList.toggle('active', page==='charts');
+  document.getElementById('pg-festivals').classList.toggle('active', page==='festivals');
+  document.getElementById('pv').style.display = 'none';
+  // update nav
+  ['home','charts','festivals'].forEach(p => {
+    const el = document.getElementById('nav-'+p);
+    if (el) el.classList.toggle('active', p===page);
+  });
+  window.scrollTo(0,0);
+}
+
+function buildAll() {
+  document.getElementById('tg').innerHTML = TR.map((a,i)=>{
+    const[bg,fg]=AVC[i%AVC.length];
+    return `<div class="ac" id="ac-${i}" onclick="go('${a.n.replace(/'/g,"\'")}')">
+      <div class="vinyl" id="vinyl-${i}">
+        <div class="vinyl-outer"></div>
+        <div class="vinyl-rings"></div>
+        <div class="vinyl-label" id="vl-${i}">
+          <div class="vinyl-label-bg" style="background:${bg};color:${fg}">${a.n[0]}</div>
+        </div>
+        <div class="vinyl-hole"></div>
+      </div>
+      <h3>${a.n}</h3><p>${a.g}</p>
+      <div class="msr">${sh(a.s)}</div>
+    </div>`;
+  }).join('');
+  TR.forEach(async (a,i)=>{
+    try{
+      const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(a.n)}`);
+      if(!r.ok)return;
+      const j=await r.json();
+      const img=j.thumbnail?.source;
+      if(!img)return;
+      const lbl=document.getElementById('vl-'+i);
+      if(lbl)lbl.innerHTML=`<img src="${img}" alt="${a.n}" loading="lazy">`;
+    }catch{}
+  });;
+  document.getElementById('cl').innerHTML = TR.map((a,i)=>{
+    const[bg,fg]=AVC[i%AVC.length];
+    return `<div class="ci" id="ci-${i}" onclick="go('${a.n.replace(/'/g,"\'")}')">
+      <div class="cn">${i+1}</div>
+      <div class="cav" id="ci-av-${i}" style="background:${bg};color:${fg};overflow:hidden;position:relative"><span style="position:relative;z-index:1">${a.n[0]}</span></div>
+      <div class="cinfo"><div class="cname">${a.n}</div><div class="cgen">${a.g}</div></div>
+      <div class="cscore">★ ${a.s}</div>
+    </div>`;
+  }).join('');
+  TR.forEach(async (a,i)=>{
+    try{
+      const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(a.n)}`);
+      if(!r.ok)return;
+      const j=await r.json();
+      const img=j.thumbnail?.source;
+      if(!img)return;
+      const avEl=document.getElementById('ci-av-'+i);
+      if(avEl)avEl.innerHTML=`<img src="${img}" alt="${a.n}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">`;
+    }catch{}
+  });;
+  document.getElementById('fg').innerHTML = FV.map(f=>`
+    <div class="fc" onclick="window.open('${f.url}','_blank')" style="cursor:pointer">
+      <div class="fe">${f.e}</div>
+      <div class="fn">${f.n}</div>
+      <div class="fl">📍 ${f.l}</div>
+      <div class="fd">${f.d}</div>
+      <div class="ftags">${f.t.map(t=>`<span class="ftag">${t}</span>`).join('')}</div>
+      <div style="font-size:0.65rem;color:var(--gold);margin-top:6px">Visit website →</div>
+    </div>`).join('');
+}
+
+function sh(n){let s='',r=Math.round(n);for(let i=0;i<5;i++)s+=`<svg class="ms ${i<r?'on':'off'}" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;return s;}
+
+function doSearch() { const v=document.getElementById('si').value.trim(); if(v) go(v); }
+
+function go(name) {
+  window.location.hash = 'artist/' + encodeURIComponent(name.replace(/ /g, '-'));
+}
+
+function showProfile(name) {
+  cp = (cp+1) % AVC.length;
+  document.getElementById('pg-home').style.display = 'none';
+  document.getElementById('pg-charts').classList.remove('active');
+  document.getElementById('pg-festivals').classList.remove('active');
+  document.getElementById('pv').style.display = 'block';
+  window.scrollTo(0,0);
+  loadProfile(name);
+}
+
+function st(id,el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('pb-'+id).classList.add('on');
+}
+
+function ls(id,s){const e=document.getElementById(id);if(e)e.className='lstep '+(s||'');}
+
+async function loadProfile(name) {
+  document.getElementById('ls').style.display='flex';
+  document.getElementById('pc').style.display='none';
+  document.querySelectorAll('.lstep').forEach(e=>e.className='lstep');
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===0));
+  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('on',i===0));
+
+  let wiki=null,itunes=null,tm=[],ai=null;
+
+  ls('lw','active');
+  try{const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`);if(r.ok){wiki=await r.json();ls('lw','done');}else ls('lw','');}catch{ls('lw','');}
+
+  ls('li','active');
+  try{const[tr,al]=await Promise.all([fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(name)}&media=music&entity=song&limit=20`).then(r=>r.json()),fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(name)}&media=music&entity=album&limit=6`).then(r=>r.json())]);itunes={tracks:tr.results||[],albums:al.results||[]};ls('li','done');}catch{ls('li','');}
+
+  ls('lt','active');
+  try{
+    const r=await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${encodeURIComponent(name)}&classificationName=music&size=12&apikey=${TM}`);
+    const j=await r.json();
+    const TRIBUTE_WORDS=['tribute','salute','celebration of','legacy of','experience','forever','story of','the music of','performed by','vs ','vs.'];
+    const allEvents=j._embedded?.events||[];
+    tm=allEvents.filter(e=>{
+      const n=(e.name||'').toLowerCase();
+      return !TRIBUTE_WORDS.some(w=>n.includes(w));
+    }).slice(0,6);
+    ls('lt','done');
+  }catch{ls('lt','');}
+
+  ls('la','active');
+  try{
+    const genre=itunes?.tracks[0]?.primaryGenreName||'music';
+    const albs=itunes?.albums?.slice(0,4).map(a=>a.collectionName).join(', ')||'';
+    const prompt=`For artist "${name}" (${genre}), return ONLY valid JSON, no other text:\n{"tagline":"short catchy description","genre":"Genre/Subgenre","origin":"City, Country","active_since":"Year","ratings":{"overall":4.5,"live_show":88,"music":91,"vibe":85,"fanbase":90} where overall is 0.0-5.0 and live_show/music/vibe/fanbase are 0-100 where overall is 0.0-5.0 and live_show/music/vibe/fanbase are 0-100,"bio_extra":"One sentence about their musical impact and legacy.","live_review":"Two sentences describing the concert atmosphere and energy.","concert_tips":[{"icon":"🎟️","title":"Tickets","tip":"Specific buying advice"},{"icon":"👗","title":"Outfit","tip":"What to wear"},{"icon":"📍","title":"Best spot","tip":"Where to stand"},{"icon":"⏰","title":"Arrival","tip":"When to arrive"},{"icon":"📱","title":"Phones","tip":"Camera policy"}],"gossip":[{"source":"Rolling Stone","text":"Recent career news in one sentence.","time":"1 week ago"},{"source":"Billboard","text":"Chart or album news in one sentence.","time":"2 weeks ago"},{"source":"TMZ","text":"Personal life news in one sentence.","time":"1 month ago"}]}`;
+    const r=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:prompt}]})});
+    const j=await r.json();
+    const raw=j.content?.map(b=>b.text||'').join('')||'';
+    ai=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    ls('la','done');
+  }catch(e){ls('la','');console.error('AI:',e);}
+
+  render(name,wiki,itunes,tm,ai);
+}
+
+function render(name,wiki,itunes,tm,ai){
+  document.getElementById('ls').style.display='none';
+  document.getElementById('pc').style.display='block';
+  const[bg,fg]=AVC[cp];
+  const av=document.getElementById('pav');
+  av.style.background=bg;av.style.color=fg;
+  av.innerHTML=`<span style="position:relative;z-index:1;font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700">${name[0].toUpperCase()}</span>`;
+  if(wiki?.thumbnail?.source){
+    av.innerHTML=`<img src="${wiki.thumbnail.source}" alt="${name}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:50%"><span style="display:none">${name[0]}</span>`;
+  }
+  document.getElementById('pname').textContent=wiki?.title||name;
+  const genre=ai?.genre||itunes?.tracks[0]?.primaryGenreName||'Music';
+  const origin=ai?.origin||'';const since=ai?.active_since||'';
+  let bdg=`<span class="bdg g">${genre}</span>`;
+  if(origin)bdg+=`<span class="bdg">${origin}</span>`;
+  if(since)bdg+=`<span class="bdg">Since ${since}</span>`;
+  document.getElementById('pbdg').innerHTML=bdg;
+  document.getElementById('ptag').textContent=ai?.tagline||wiki?.description||'';
+  if(ai?.ratings){
+  const overall = ai.ratings.overall > 5 ? (ai.ratings.overall/20).toFixed(1) : ai.ratings.overall.toFixed(1);
+  document.getElementById('pscore').textContent=overall;
+  setTimeout(()=>{setB('l',ai.ratings.live_show);setB('m',ai.ratings.music);setB('v',ai.ratings.vibe);setB('f',ai.ratings.fanbase);},100);
+}
+  let p=[];if(wiki)p.push('<div class="pill live">✓ Wikipedia</div>');if(itunes?.tracks?.length)p.push('<div class="pill live">✓ iTunes</div>');if(tm?.length)p.push('<div class="pill live">✓ Ticketmaster</div>');if(ai)p.push('<div class="pill ai">✓ Claude AI</div>');document.getElementById('pills').innerHTML=p.join('');
+  let bh='';if(wiki?.extract){const ps=wiki.extract.split('\n').filter(p=>p.trim().length>50).slice(0,4);bh=ps.map(p=>`<p>${p}</p>`).join('');bh+=`<a class="ws" href="${wiki.content_urls?.desktop?.page||'#'}" target="_blank">📖 Wikipedia</a>`;}else bh=`<p style="color:var(--muted)">No Wikipedia article found for "${name}".</p>`;if(ai?.bio_extra)bh+=`<p style="margin-top:0.8rem">${ai.bio_extra}</p>`;document.getElementById('bio').innerHTML=bh;
+  const tracks=itunes?.tracks?.slice(0,10)||[];document.getElementById('songs').innerHTML=tracks.length?tracks.map((t,i)=>`<div class="song"><span class="snum">${i+1}</span><div class="si2"><div class="stit">${t.trackName||'Unknown'}</div><div class="salb">${t.collectionName||''}</div></div><span class="sdur">${msm(t.trackTimeMillis)}</span></div>`).join(''):`<div class="empty"><p>No tracks found.</p></div>`;
+  document.getElementById('spbtn').onclick=()=>window.open(`https://open.spotify.com/search/${encodeURIComponent(name)}`,'_blank');
+  const albs=itunes?.albums?.slice(0,6)||[];document.getElementById('albums').innerHTML=albs.length?albs.map(a=>`<div class="alb" onclick="window.open('${a.collectionViewUrl||''}','_blank')"><img src="${(a.artworkUrl100||'').replace('100x100','300x300')}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='grid'"><div class="afb" style="display:none">🎵</div><div class="albi"><div class="albt">${a.collectionName||''}</div><div class="alby">${a.releaseDate?.slice(0,4)||''} · ${a.trackCount||0} tracks</div></div></div>`).join(''):`<p style="color:var(--muted);font-size:0.78rem">No albums found.</p>`;
+  let lh='';if(ai?.live_review)lh+=`<div class="lr">${ai.live_review}</div>`;if(ai?.concert_tips)lh+=`<div class="tips">${ai.concert_tips.map(t=>`<div class="tip"><span class="ticon">${t.icon}</span><div class="tb"><strong>${t.title}</strong><span>${t.tip}</span></div></div>`).join('')}</div>`;if(!lh)lh=`<div class="empty"><div class="ei">🎸</div><h4>AI insights unavailable</h4><p>Check Netlify Functions configuration.</p></div>`;document.getElementById('live').innerHTML=lh;
+  if(tm?.length){document.getElementById('concerts').innerHTML=tm.map(e=>{const date=e.dates?.start?.localDate?new Date(e.dates.start.localDate).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'TBA';const v=e._embedded?.venues?.[0];const city=v?`${v.city?.name||''}, ${v.country?.name||''}`:'';return`<div class="cert"><span class="cdate">${date}</span><div class="cv"><div class="cvn">${v?.name||e.name||'TBA'}</div><div class="cvc">📍 ${city}</div></div><button class="tbtn" onclick="window.open('${e.url||''}','_blank')">Tickets →</button></div>`;}).join('');}else document.getElementById('concerts').innerHTML=`<div class="empty"><div class="ei">🎟️</div><h4>No upcoming events</h4></div>`;
+  if(ai?.gossip)document.getElementById('gossip').innerHTML=ai.gossip.map(g=>`
+  <div class="gi" onclick="window.open('https://news.google.com/search?q=${encodeURIComponent(name+' '+g.source)}','_blank')" style="cursor:pointer;transition:opacity 0.18s" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
+    <div class="gsrc">${g.source} ↗</div>
+    <div class="gtxt">${g.text}</div>
+    <div class="gtm">${g.time}</div>
+  </div>`).join('');else document.getElementById('gossip').innerHTML=`<div class="empty"><div class="ei">📰</div><h4>Gossip unavailable</h4></div>`;
+}
+
+function setB(id,raw){
+  const pct = raw <= 5 ? Math.round(raw * 20) : raw;
+  document.getElementById('r'+id).style.width=pct+'%';
+  document.getElementById('v'+id).textContent=pct;
+}
+function msm(ms){if(!ms)return'—';const m=Math.floor(ms/60000),s=Math.floor((ms%60000)/1000).toString().padStart(2,'0');return`${m}:${s}`;}
+</script>
+</body>
+</html>
