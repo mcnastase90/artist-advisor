@@ -424,18 +424,18 @@ async function loadProfile(name) {
   ls('lt','active');
   try{const r=await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${encodeURIComponent(name)}&classificationName=music&size=6&apikey=${TM}`);const j=await r.json();tm=j._embedded?.events||[];ls('lt','done');}catch{ls('lt','');}
 
-  ls('la','active');
-  try{
-    const genre=itunes?.tracks[0]?.primaryGenreName||'music';
-    const albs=itunes?.albums?.slice(0,4).map(a=>a.collectionName).join(', ')||'';
-    const prompt=`For artist "${name}" (${genre}), return ONLY valid JSON, no other text:\n{"tagline":"short catchy description","genre":"Genre/Subgenre","origin":"City, Country","active_since":"Year","ratings":{"overall":4.5,"live_show":88,"music":91,"vibe":85,"fanbase":90},"bio_extra":"One sentence about their musical impact and legacy.","live_review":"Two sentences describing the concert atmosphere and energy.","concert_tips":[{"icon":"🎟️","title":"Tickets","tip":"Specific buying advice"},{"icon":"👗","title":"Outfit","tip":"What to wear"},{"icon":"📍","title":"Best spot","tip":"Where to stand"},{"icon":"⏰","title":"Arrival","tip":"When to arrive"},{"icon":"📱","title":"Phones","tip":"Camera policy"}],"gossip":[{"source":"Rolling Stone","text":"Recent career news in one sentence.","time":"1 week ago"},{"source":"Billboard","text":"Chart or album news in one sentence.","time":"2 weeks ago"},{"source":"TMZ","text":"Personal life news in one sentence.","time":"1 month ago"}]}`;
-    const r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:prompt}]})});
-    const j=await r.json();
-    const raw=j.content?.map(b=>b.text||'').join('')||'';
-    ai=JSON.parse(raw.replace(/```json|```/g,'').trim());
-    ls('la','done');
-  }catch(e){ls('la','');console.error('AI:',e);}
-
+ ls('la','active');
+try{
+  const genre=itunes?.tracks[0]?.primaryGenreName||'music';
+  const prompt=`For artist "${name}" (${genre}), return ONLY valid JSON, no other text:\n{"tagline":"short catchy description","genre":"Genre/Subgenre","origin":"City, Country","active_since":"Year","ratings":{"overall":4.5,"live_show":88,"music":91,"vibe":85,"fanbase":90},"bio_extra":"One sentence about their impact.","live_review":"Two sentences about the concert.","concert_tips":[{"icon":"🎟️","title":"Tickets","tip":"advice"},{"icon":"👗","title":"Outfit","tip":"advice"},{"icon":"📍","title":"Best spot","tip":"advice"}],"gossip":[{"source":"Billboard","text":"One sentence.","time":"1 week ago"},{"source":"TMZ","text":"One sentence.","time":"2 weeks ago"}]}`;
+  const r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:prompt}]})});
+  const j=await r.json();
+  if(j.error) throw new Error(j.error.message||'API error');
+  const raw=j.content?.map(b=>b.text||'').join('')||'';
+  if(!raw) throw new Error('Empty response');
+  ai=JSON.parse(raw.replace(/```json|```/g,'').trim());
+  ls('la','done');
+}catch(e){ls('la','');console.error('AI:',e.message);}
   render(name,wiki,itunes,tm,ai);
 }
 
